@@ -1,0 +1,75 @@
+#!/bin/bash
+
+if [ "$(id -u)" != "0" ]; then
+echo "Deve executar o comando como super usuario!"
+exit 0
+fi
+
+case "$1" in
+	-bg|--background)
+if ( ctsat-status | grep -i lnx_ctsat ) >> /dev/null
+		then
+	echo -e "Aplicativo CTSAT já está ativo!"
+	read -t 3
+		else
+	nohup ctsat-on >> /dev/null 2>&1 &
+	read -t 2
+if ( ctsat-status | grep -i lnx_ctsat ) >> /dev/null
+		then
+	echo -e "Aplicativo CTSAT ativado!"
+	read -t 3
+		else
+	echo -e "Aplicativo CTSAT nao foi ativado!"
+	read -t 3
+fi
+fi
+	exit 0
+	;;
+	-on)
+if ( ctsat-status | grep -i lnx_ctsat ) >> /dev/null
+		then
+	echo -e "Aplicativo CTSAT já está ativo!"
+	read -t 3
+		else
+
+	SATDIR=/Zanthus/Zeus/ctsat
+	SATEXEC=./lnx_ctsat.xz
+
+	cd $SATDIR
+	sudo $SATEXEC
+
+fi
+	exit 0
+	;;
+	-off)
+	kill -9 $(pgrep lnx_ctsat)
+	exit 0
+	;;
+	--restart)
+	kill -9 $(pgrep lnx_ctsat)
+if ( ctsat-status | grep -i lnx_ctsat ) >> /dev/null
+		then
+	echo -e "Aplicativo CTSAT já está ativo!"
+	read -t 3
+		else
+
+	SATDIR=/Zanthus/Zeus/ctsat
+	SATEXEC=./lnx_ctsat.xz
+
+	cd $SATDIR
+	sudo $SATEXEC
+
+fi
+	exit 0
+	;;
+	--status)
+	pgrep -l lnx_ctsat
+	exit 0
+	;;
+	*)
+	echo -e "
+ Parâmetro inválido...
+ Use: "$0" {-bg|--background/-on/-off/--restart/--status}
+"
+	;;
+esac
