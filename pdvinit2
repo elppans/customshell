@@ -1,0 +1,284 @@
+#!/bin/bash
+
+if [ "$(id -u)" != "0" ]; then
+echo "Deve executar o comando como super usuario!"
+exit 0
+fi
+#pdvinit-menu
+if [ -n "$*" ]; then
+case "$*" in
+	-b|--basic)
+basicpdvinit() {
+	clear
+	echo -e "Escolha o n- da opcao desejada:"
+	echo -e "Opção 1 - Desligar."
+	echo -e "Opção 2 - Reiniciar." 
+	echo -e "Opção 3 - Apenas sair da aplicação."
+read opcao
+case $opcao in
+	1) 
+		read -p "O computador será desligado em alguns segundos..." -t 5
+		init 0
+;;
+	2) 
+		read -p "O computador será reiniciado em alguns segundos..." -t 5
+		init 6
+;;
+	3) 
+		read -p "Saindo da aplicação Zanthus..." -t 5
+		exit 0
+;;
+	*) "Opcao invalida" ; echo ; basicpdvinit ;;
+esac
+}
+basicpdvinit
+;;
+	-h|--help)
+	echo -e "pdvinit:
+	Usado para obter opcoes de escolha para o INIT:
+
+Opcoes:
+-b|--basic	Opcoes de escolha para o INIT basico
+-h|--help	Opcao de ajuda
+
+Se omitido, sera chamado o Menu padrao!"
+	;;
+ *)
+	echo -e "\nErro de Sintaxe:\nDeve digitar $0 {-h|--help} para saber as opcoes disponiveis!"
+	exit 0
+esac
+	else
+#pdvinit2
+PDVVE=12
+PDVRE=$(lsb_release -rs | cut -d "." -f "1")
+PDVIN=$(pgrep -l pdv | awk '{print $2}' | head -1)
+
+
+#PDV Ubuntu Release
+if [ $PDVRE -eq $PDVVE ];then
+#pdvTouch
+if [ "$PDVIN" = "pdvTouch" ] 
+		then
+	echo "pdvTouch"
+	pkill chrome
+	pkill PDVTouch.sh
+		else
+#pdvTouchDual
+if [ "$PDVIN" = "pdvTouchDual" ] 
+                then
+        echo "pdvTouchDual"
+	pkill chrome
+	pkill jpdvgui6.jar
+	pkill PDVTouchDual.sh
+                else
+#pdvJava2
+if [ "$PDVIN" = "pdvJava2" ]
+                then
+        echo "pdvJava2"
+	pkill jpdvgui6.jar
+                else
+        echo "Não há PDV aberto!"
+	exit 0
+fi
+#pdvJava2
+fi
+#pdvTouchDual
+fi
+#pdvTouch
+fi
+#PDV Ubuntu Release
+
+. /etc/environment
+sysZanAtualApl=/Zanthus/Zeus/path_comum
+
+if [ -d $sysZanAtualApl ] >> /dev/null
+		then
+if ( cat /etc/environment | grep Z_MOUNT ) >> /dev/null
+		then
+if ( mount | grep $sysZanAtualApl ) >> /dev/null
+		then
+###pdvinit
+pdvinit(){
+	clear
+	echo -e '\b Escolha o n- da opcao desejada:'
+	echo -e '\b (0) Desmontar o path_comum e ir para o Terminal'
+	echo -e '\b (1) Apenas ir para o Terminal'
+	echo -e '\b (2) Reiniciar o sistema'
+	echo -e '\b (3) Desligar o sistema'
+read opcao
+case $opcao in
+	0) xinitp2 ;;
+	1) xinit2 ;;
+	2) xinit6 ;;
+	3) xinit0 ;;
+	*) "Opcao invalida" ; echo ; parametroXX ;;
+esac
+}
+
+xinitp2(){
+	clear
+	echo -e '\n Desmontando o path_comum e indo para o Terminal...'
+	read -t 5
+	cd
+	umount $sysZanAtualApl
+	umount $sysZanAtualApl >> /dev/null
+	pkill -9 lnx
+	clear
+	exit 0
+}
+
+xinit2(){
+	clear
+	echo -e '\n Desativando PDV e indo para o Terminal...'
+	read -t 5
+	pkill -9 lnx
+	clear
+	exit 0
+}
+
+xinit6(){
+	clear
+	echo -e '\n Reiniciando o sistema...'
+	read -t 5
+	pkill -9 lnx
+	cd
+	umount -a >> /dev/null
+	init 6
+}
+
+xinit0(){
+	clear
+	echo -e '\n Desligando o sistema...'
+	read -t 5
+	pkill -9 lnx
+	cd
+	umount -a >> /dev/null
+	init 0
+}
+pdvinit
+###pdvinit - FIM
+		else
+###pdvinit
+pdvinit(){
+	clear
+	echo -e '\b Escolha o n- da opcao desejada:'
+	echo -e '\b (0) Montar o path_comum e ir para o Terminal'
+	echo -e '\b (1) Apenas ir para o Terminal'
+	echo -e '\b (2) Reiniciar o sistema'
+	echo -e '\b (3) Desligar o sistema'
+read opcao
+case $opcao in
+	0) xinitp2 ;;
+	1) xinit2 ;;
+	2) xinit6 ;;
+	3) xinit0 ;;
+	*) "Opcao invalida" ; echo ; parametroXX ;;
+esac
+}
+
+xinitp2(){
+	clear
+	echo -e '\n Montando o path_comum e indo para o Terminal...'
+	read -t 5
+	cd
+	$Z_MOUNT
+	$Z_MOUNT >> /dev/null
+	pkill -9 lnx
+	clear
+	exit 0
+}
+
+xinit2(){
+	clear
+	echo -e '\n Desativando PDV e indo para o Terminal...'
+	read -t 5
+	pkill -9 lnx
+	clear
+	exit 0
+}
+
+xinit6(){
+	clear
+	echo -e '\n Reiniciando o sistema...'
+	read -t 5
+	pkill -9 lnx
+	cd
+	umount -a >> /dev/null
+	init 6
+}
+
+xinit0(){
+	clear
+	echo -e '\n Desligando o sistema...'
+	read -t 5
+	pkill -9 lnx
+	cd
+	umount -a >> /dev/null
+	init 0
+}
+pdvinit
+###pdvinit - FIM
+fi
+
+		else
+###pdvinit
+pdvinit(){
+	clear
+	echo -e 'Verifique novamente a configuracao de montagem do path_comum...'
+	read -t 5
+#	clear
+	echo -e '\b Escolha o n- da opcao desejada:'
+	echo -e '\b (1) Apenas ir para o Terminal'
+	echo -e '\b (2) Reiniciar o sistema'
+	echo -e '\b (3) Desligar o sistema'
+read opcao
+case $opcao in
+	1) xinit2 ;;
+	2) xinit6 ;;
+	3) xinit0 ;;
+	*) "Opcao invalida" ; echo ; parametroXX ;;
+esac
+}
+
+xinit2(){
+	clear
+	echo -e '\n Desativando PDV e indo para o Terminal...'
+	read -t 5
+	pkill -9 lnx
+	clear
+	exit 0
+}
+
+xinit6(){
+	clear
+	echo -e '\n Reiniciando o sistema...'
+	read -t 5
+	pkill -9 lnx
+	cd
+	umount -a >> /dev/null
+	init 6
+}
+
+xinit0(){
+	clear
+	echo -e '\n Desligando o sistema...'
+	read -t 5
+	pkill -9 lnx
+	cd
+	umount -a >> /dev/null
+	init 0
+}
+pdvinit
+###pdvinit - FIM
+
+fi
+
+		else
+	echo -e 'O path comum Zanthus nao existe...'
+	read -t 10
+	init 2
+	exit 0
+fi
+#pdvinit2 - fim
+fi
+#pdvinit-menu - fim
