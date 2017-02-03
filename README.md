@@ -45,6 +45,8 @@ usuarioexiste.sh = [ TESTE ] - Testa se o usuário digitado existe no sistema
 
 usuariovalido.sh = [ TESTE ] - Testa se o usuário digitado é normal ou inválido (Usuários de sistema retornam como inválido)
 
+___
+
 Laboratório:
 
 pathcomum_on = [ Laboratório ] - Em "LOOPING Infinito", verifica se o path_comum está montado, caso não tiver, monta automaticamente
