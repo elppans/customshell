@@ -1,0 +1,96 @@
+#!/bin/bash
+
+# ifether = comando para mostrar somente a porta de rede, a primeira da lista. O parâmetro "-a" é para mostrar, mesmo se a porta não está ativa.
+# chmac = Comando para mudar o MAC ADDRESS da porta escolhida aleatóriamente
+
+# route -n
+# $(echo "`$IFETHER`$(($RANDOM % 10))")
+# $ $IFETHER 
+# enp2s0
+# $IFETHER | tail -c 2
+# 0
+# expr 1 + `$IFETHER | tail -c 2`
+# 1
+# $ $IFETHER | sed "s/$($IFETHER | tail -c 2)//"
+# enp2s
+# echo `$IFETHER | sed "s/$($IFETHER | tail -c 2)//"``expr 1 + $($IFETHER | tail -c 2)`
+# enp2s1
+
+## Verificar Gateway:
+#route -n|grep "UG"|grep -v "UGH"|cut -f 10 -d " "
+#route -n | awk '$4 == "UG" {print $2}'
+#route -n | grep 'UG[ \t]' | awk '{print $2}'
+#/sbin/ip route | awk '/default/ { print $3 }'
+
+#IPGW=$(ip route | awk '/default/ { print $3 }')
+#echo $IPGW
+#sudo route add default gw "$IPGW" `$IFETHER`
+
+## Verificar IP:
+#ifconfig `$IFETHER` | grep -i "inet end" | awk '{print $3}'
+#ifconfig | sed -n 2P | awk '{print $3}'
+#ifconfig | awk '/inet/ { print $3 }'
+#ip addr show `ifconfig | head -1 | awk '{print $1}' | cut -d ":" -f "1"` | awk '/inet/ { print $2 }' | sed -n 1P | sed 's/\/.*//'
+
+#IPADDR=$(ip addr show `ifconfig | head -1 | awk '{print $1}' | cut -d ":" -f "1"` | awk '/inet/ { print $2 }' | sed -n 1P | sed 's/\/.*//')
+# Mesmo comando, mas usando o script "$IFETHER":
+#IPADDR=$(ip addr show `$IFETHER` | awk '/inet/ { print $2 }' | sed -n 1P | sed 's/\/.*//')
+#echo $IPADDR
+#sudo ifconfig `$IFETHER` "$IPADDR" up
+
+ADDRMAC="chmac"
+IFETHER="ifether"
+IFETHERA="ifether -a"
+IPADDR=$(ip addr show `$IFETHER` | awk '/inet/ { print $2 }' | sed -n 1P | sed 's/\/.*//')
+IPGW=$(ip route | awk '/default/ { print $3 }')
+
+
+#echo $IPADDR
+#echo $IPGW
+
+case "$1" in
+	-d|--dhcp)
+echo "Antes:"
+ifconfig `$IFETHER`
+sudo ifconfig `$IFETHER` down
+IFNAME="`$IFETHERA | sed "s/$($IFETHERA | tail -c 2)//"`"
+IFNAME+="`expr "$($IFETHERA | tail -c 2)" + 1`"
+
+sudo ip link set dev `$IFETHERA` name `echo "$IFNAME"`
+
+sudo $ADDRMAC `$IFETHERA`
+sudo ifconfig `$IFETHERA` up
+sudo dhclient
+echo "Depois:"
+ifconfig `$IFETHER`
+	;;
+	-s|--static)
+echo "Antes:"
+ifconfig `$IFETHER`
+sudo ifconfig `$IFETHER` down
+IFNAME="`$IFETHERA | sed "s/$($IFETHERA | tail -c 2)//"`"
+IFNAME+="`expr "$($IFETHERA | tail -c 2)" + 1`"
+
+sudo ip link set dev `$IFETHERA` name `echo "$IFNAME"`
+
+sudo $ADDRMAC `$IFETHERA`
+sudo ifconfig `$IFETHER` "$IPADDR" up
+sudo route add default gw "$IPGW" `$IFETHER`
+echo "Depois:"
+ifconfig `$IFETHER`
+	;;
+	-o|--only-mac)
+echo "Antes:"
+ifconfig `$IFETHER`
+sudo chmac `$IFETHER`
+
+echo "Depois:"
+sudo ifconfig `$IFETHER` "$IPADDR" up
+sudo route add default gw "$IPGW" `$IFETHER`
+ifconfig `$IFETHER`
+	;;
+	*)
+	echo "Falha ao executar o comando..."
+	echo "Execute "$0" {-d|--dhcp|-s|--static|-o|--only-mac}"
+	;;
+esac
