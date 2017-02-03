@@ -10,8 +10,9 @@ oui.txt = arquivo com os códigos dos fabricantes de placa de rede, para caso o 
 
 ifether = Apenas mostra a 1ª porta do ifconfig. Com o parâmetro "-a", mostra a porta da placa de rede mesmo que esteja desativada
 
-chmac-ifcfg = Modifica (temporariamente) o nome da placa de rede, o MAC e reconfigura o IP de forma estática ou DHCP [ Depende dos Scripts "chmac e ifether" ]
+chmac-ifether = Modifica (temporariamente) o nome da placa de rede, o MAC e reconfigura o IP de forma estática ou DHCP [ Depende dos Scripts "chmac e ifether" ]
 
+teamviewer-chmac = Em conjunto com o "chmac-ifether" e suas dependências, pode-se iniciar o Team Viewer com este comando (O daemon do TV deve estar desativado para que não inicie com o sistema)
 ___
 
 Diversos:
