@@ -1,0 +1,70 @@
+#!/bin/bash
+
+###	AUTOR:	Reynaldo Hortensi
+##	Data: 27 de Setembro de 2014, 22:46
+
+### Fonte:
+## http://ubuntuforum-br.org/index.php?topic=114866.0
+
+##Site gerador de MAC:
+# http://www.caminhoweb.com.br/ferramentas/mac/
+
+## Os 6 primeiro dígitos do endereço não podem ser aleatórios, pois denominam o fabricante da placa
+# Deve ser executado como root e a sintaxe é: chmac <device>
+# Exemplo:
+# chmac eth0
+
+# deve ser executado como root ou com o sudo
+if [[ $(id -u) -ne 0 ]] ; then echo "Please run as root" ; exit 1 ; fi
+
+# arquivos com dados dos fabricantes
+BASE_FILE='/etc/oui.txt'
+FILE='/etc/oui_trimmed.txt'
+
+# baixa e formata o arquivo com os códigos dos fabricantes se ele ainda não existe
+if [ ! -e $FILE ]
+   then
+      if [ ! -e $BASE_FILE ]
+         then
+	    wget -O $BASE_FILE -c http://standards.ieee.org/develop/regauth/oui/oui.txt
+      fi
+      # o grep filtra as linhas, o awk separa apenas a primeira coluna,
+      # o sed troca os "-" por ":" e retira os espaços em branco do início da linha
+      grep '  (hex)' /etc/oui.txt | awk -F '   ' '{print $1}' | sed 's/-/:/g' | sed 's/  //g' >> $FILE
+fi
+ 
+# número de linhas do arquivo
+OUI_MAX=$(wc -l < $FILE)
+
+# escolhe uma linha aleatória
+RANDOM_MANUFACTURER=$(((RANDOM % OUI_MAX)+1))
+
+# guarda o código presente na linha aleatória
+RANDOM_MANUFACTURER=$(head -n $RANDOM_MANUFACTURER $FILE | tail -1)
+
+# coloca o código escolhido no começo do endereço
+MAC=$RANDOM_MANUFACTURER
+
+# valor máximo pra cada dígito (em decimal)
+MAX=$((16**2))
+
+# gera aleatóriamente os dígitos restantes
+for x in 1 2 3; do
+   # gera um número aleatório entre 0 e 255
+   DIGIT=$((RANDOM % MAX))
+   # converte pra base hexadecimal
+   DIGIT=`echo "obase=16; $DIGIT" | bc`
+   # formata pra dois dígitos
+   DIGIT=`printf "%02x" 0x$DIGIT`
+   # adiciona no final do endereço
+   MAC=$MAC:$DIGIT
+done
+
+echo "O novo MAC será '$MAC'"
+
+# configura o novo endereço MAC
+#service network-manager stop
+ifconfig $1 down
+ifconfig $1 hw ether $MAC
+ifconfig $1 up
+#service network-manager start
