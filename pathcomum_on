@@ -1,0 +1,18 @@
+#!/bin/bash
+
+PATHCOMUMON(){
+if ( mount | grep "/Zanthus/Zeus/path_comum" ) >> /dev/null ;
+  then
+	echo "\"path_comum\" OK"
+	read -t 5
+	PATHCOMUMON
+  else
+	echo "\"path_comum\" não montado,"
+	#echo "Montando o path_comum..."
+	read -t 3
+	. /etc/environment &
+	$Z_MOUNT &
+	PATHCOMUMON
+fi
+}
+PATHCOMUMON 

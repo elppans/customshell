@@ -1,0 +1,6 @@
+#!/bin/bash
+
+sudo teamviewer --daemon enable
+teamviewer
+sudo teamviewer --daemon disable
+

@@ -1,0 +1,43 @@
+#!/bin/bash
+
+##	COD v.01
+#if ( ifconfig | grep Link ) >> /dev/null
+#		then
+#	ifconfig | cut -d " " -f "1" | head -1
+#		else
+#	ifconfig | cut -d ":" -f "1" | head -1
+#fi
+
+##	COD V.02
+#ifconfig | head -1 | awk '{print $1}' | cut -d ":" -f "1" | head -1
+
+##	COD V.03
+#ifconfig | head -1 | awk '{print $1}'
+
+##	COD v.04
+#if ( ifconfig | grep Link ) >> /dev/null
+#		then
+#	ifconfig | head -1 | awk '{print $1}'
+#		else
+#	ifconfig | head -1 | awk '{print $1}' | cut -d ":" -f "1"
+#fi
+
+##	COD v.05
+case "$1" in
+	-a)
+if ( ifconfig | grep Link ) >> /dev/null
+		then
+	ifconfig -a | head -1 | awk '{print $1}'
+		else
+	ifconfig -a | head -1 | awk '{print $1}' | cut -d ":" -f "1"
+fi
+	;;
+	*)
+if ( ifconfig | grep Link ) >> /dev/null
+		then
+	ifconfig | head -1 | awk '{print $1}'
+		else
+	ifconfig | head -1 | awk '{print $1}' | cut -d ":" -f "1"
+fi
+	;;
+esac
