@@ -55,4 +55,4 @@ mv_conv = [laboratório ] - Converte os movimentos do PDV
 
 ctsat = [ Laboratório ] - Comando para usar o ctsat do PDV, com suporte a BG
 
-pdvinit2 = [ Laboratório ] - Comando para escolher qual o init escolher após Função 53 
+pdvinit2 = [ Laboratório ] - Comando para escolher qual o init escolher após Função 53 (Com suporte ao init básico { -b|--basic)
