@@ -49,7 +49,7 @@ ___
 
 Laboratório:
 
-pathcomum_on = [ Laboratório ] - Em "LOOPING Infinito", verifica se o path_comum está montado, caso não tiver, monta automaticamente
+pathcomum_on = [ Laboratório ] - Em "LOOPING INFINITO", verifica se o path_comum está montado, caso não tiver, monta automaticamente
 
 mv_conv = [laboratório ] - Converte os movimentos do PDV
 
