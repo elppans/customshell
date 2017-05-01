@@ -13,6 +13,8 @@ ifether = Apenas mostra a 1ª porta do ifconfig. Com o parâmetro "-a", mostra a
 chmac-ifether = Modifica (temporariamente) o nome da placa de rede, o MAC e reconfigura o IP de forma estática ou DHCP [ Depende dos Scripts "chmac e ifether" ]
 
 teamviewer-chmac = Em conjunto com o "chmac-ifether" e suas dependências, pode-se iniciar o Team Viewer com este comando (O daemon do TV deve estar desativado para que não inicie com o sistema)
+
+isousb = Do autor "Patrice Bourrel (Esclapion)" para Manjaro Linux. Funciona em qualquer distro, desde que tenha instalado como dependência os pacotes "zenity e gksu".
 ___
 
 Diversos:
