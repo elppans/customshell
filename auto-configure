@@ -1,0 +1,17 @@
+#!/bin/bash
+
+# Setar no GPU0 em PowerMizer Settings o Modo de preferência "Pfrefer Maximum Performance"
+nvidia-settings -a [gpu:0]/GpuPowerMizerMode=1
+# Para deixar o OpenGL, na opção Image Settings como High Performance:
+nvidia-settings --assign="OpenGLImageSettings=3"
+#Desabilitar Flipping (Recomendável para gravações por exemplo)
+nvidia-settings --assign="AllowFlipping=0"
+
+## Ativando Num Lock
+numlockx on
+
+## Ativando Scrool Lock
+# xset led 3
+
+## Ativando o mouse no teclado numérico
+# xset led 14
