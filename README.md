@@ -15,6 +15,8 @@ chmac-ifether = Modifica (temporariamente) o nome da placa de rede, o MAC e reco
 teamviewer-chmac = Em conjunto com o "chmac-ifether" e suas dependências, pode-se iniciar o Team Viewer com este comando (O daemon do TV deve estar desativado para que não inicie com o sistema)
 
 isousb = Do autor "Patrice Bourrel (Esclapion)" para Manjaro Linux. Funciona em qualquer distro, desde que tenha instalado como dependência os pacotes "zenity e gksu".
+
+auto-configure = deve ficar em /usr/bin e configurado para iniciar ao login em autostart, Serve para fazer os comandos necessários para mudar as configurações padrões da placa de vídeo, aumentando a performance, ativar o Num Lock e afins.
 ___
 
 Diversos:
