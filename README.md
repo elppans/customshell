@@ -17,6 +17,8 @@ teamviewer-chmac = Em conjunto com o "chmac-ifether" e suas dependências, pode-
 isousb = Do autor "Patrice Bourrel (Esclapion)" para Manjaro Linux. Funciona em qualquer distro, desde que tenha instalado como dependência os pacotes "zenity e gksu".
 
 auto-configure = deve ficar em /usr/bin e configurado para iniciar ao login em autostart, Serve para fazer os comandos necessários para mudar as configurações padrões da placa de vídeo, aumentando a performance, ativar o Num Lock e afins.
+
+update-vbox-extension = Instalação/Atualização da Extensão do Virtual Box - VERSÃO PARA O REPOSITÓRIO OFICIAL DO UBUNTU
 ___
 
 Diversos:
