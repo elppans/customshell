@@ -1,0 +1,19 @@
+#!/bin/bash
+
+#	Instalação/Atualização da Extensão do Virtual Box - VERSÃO PARA O INSTALADOR OFICIAL
+
+# Versão estável: http://download.virtualbox.org/virtualbox/LATEST-STABLE.TXT
+
+if [ "$(id -u)" != "0" ]; then
+	echo "Deve executar o comando como super usuario!"
+	exit 0
+fi
+
+
+VBEVERSION=$(vboxmanage -v | cut -d r -f 1)
+VBEBUILD=$(vboxmanage -v | cut -d r -f 2)
+
+VBoxManage extpack uninstall $VBEBUILD --force
+wget -c "http://download.virtualbox.org/virtualbox/$VBEVERSION/Oracle_VM_VirtualBox_Extension_Pack-$VBEVERSION-$VBEBUILD.vbox-extpack" -O "/tmp/Oracle_VM_VirtualBox_Extension_Pack-$VBEVERSION-$VBEBUILD.vbox-extpack"
+sleep 3
+sudo VBoxManage extpack install "/tmp/Oracle_VM_VirtualBox_Extension_Pack-$VBEVERSION-$VBEBUILD.vbox-extpack" --replace
