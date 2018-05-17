@@ -1,0 +1,147 @@
+#!/bin/bash
+
+# Bash Simple Script By: Elppans Dark Elven <anonymous@anonymous> 
+
+## Debian/Ubuntu
+# sudo apt-get install dmg2img pv
+
+## Red Hat/Fedora
+# sudo yum install dmg2img pv
+
+## Arch/Manjaro
+# yaourt -S dmg2img pv
+
+# Comando pv:
+
+# permite que um usuário veja o progresso dos dados por meio de um pipeline.
+
+# Opções usadas (para mais, use "man pv"):
+
+# -p :: cria a barra de progresso;
+# -e :: exibe o tempo estimado para o fim do procedimento;
+# -t :: exibe o tempo transcorrido;
+# -a :: coloca a velocidade média do procedimento;
+# -r :: coloca a velocidade total do procedimento.
+# -b :: exibe o tamanho total da cópia do arquivo
+
+case $LANG in
+
+	pt*) 
+	M=(
+	[0]=""$0"
+ Um comando para trabalhar em conjunto com \"dmg2img\".
+ Não há parâmetros, basta indicar o arquivo .dmg e o device. 
+	
+	Exemplo:
+	
+		"$0" arquivo.dmg /dev/sdX
+	
+ Onde X = o device escolhido. Não é necessário indicar a partição.
+ Use cuidado, por sua própria conta e risco!	
+	"
+	[1]="Deve instalar \"dmg2img\"..."
+	[2]="Deve instalar \"pv\"..."
+	[3]="Deve ser root para executar este comando..."
+	[4]="Deve indicar um arquivo..."
+	[5]="Deve expecificar um dispositivo..."
+	[6]="Imagem OK"
+	[7]="Deve indicar uma imagem \"DMG\" válida..."
+	[8]="Descomprimindo a imagem..."
+	[9]="Copiando a imagem descomprimida para o dispositivo escolhido..."
+	[10]="Fim..."
+	);;
+	*)
+	M=(
+	[0]=""$0"
+ A command to work with \"dmg2img\".
+ There are no parameters, just indicate the .dmg file and the device. 
+	
+	Example:
+	
+		"$0" file.dmg /dev/sdX
+	
+ Where X = the chosen device. It is not necessary to indicate the partition.
+ Use caution at your own risk!	
+	"
+	[1]="You must install \"dmg2img\"..."
+	[2]="You must install \"pv\"..."
+	[3]="You must be root to run this command..."
+	[4]="Must indicate a file..."
+	[5]="You must specify a device..."
+	[6]="Image OK"
+	[7]="Must indicate a valid \"DMG\" image..."
+	[8]="Uncompressing the image..."
+	[9]="Copying the uncompressed image to the chosen device..."
+	[10]="End..."
+	);;
+esac
+
+# help
+case "$1" in
+	--[hH][eE][lL][pP]|-[hH])
+	echo -e "${M[0]}"
+		exit 0
+	;;
+esac
+
+# Verificando se os comandos dmg2img e pv existem
+if ! whereis dmg2img | grep bin >> /dev/null ; then
+	echo -e "${M[1]}"
+	exit 0
+fi
+
+if ! whereis pv | grep bin >> /dev/null ; then
+	echo -e "${M[2]}"
+	exit 0
+fi
+
+# Verificando se quem está executando é root. 
+# Se não for dá valor falso e cai para o terminal.
+if [ ! `id -u` == "0" ]; then
+	echo "${M[3]}"
+	exit 0
+fi
+
+
+# Verificando se foi indicado um arquivo
+if [ -z "$1" ]; then
+	echo "${M[4]}"
+	exit 0
+fi
+
+# Verificando se foi indicado um device
+if [ -z "$2" ]; then
+	echo "${M[5]}"
+	exit 0
+fi
+
+# Variável para o arquivo indicado para um arquivo modificado
+IMG1=$1
+IMG2+=Uncompressed_"$IMG1"
+
+# Variável para o device escolhido
+USB=$2
+
+# Verificando se o arquivo escolhido é válido
+IMG1=$1
+IMGLS=$(ls -1 *.[dD][mM][gG] | grep "$IMG1")
+
+if [ "$IMG1" == "$IMGLS" ]; then
+	echo -e "${M[6]}"
+  else
+	echo -e "${M[7]}"
+fi
+
+# Usando o comando "dmg2img" para descomprimir a imagem escolhida
+echo "${M[8]}"
+read -t 5
+dmg2img -v -i "$IMG1" -o "$IMG2"
+
+# Usando o comando "pv" para copiar a imagem descomprimida para o device escolhido
+# Se não quiser usar o comando "pv", pode comentar a linha do comando e descomentar a linha do comando "dd"
+echo "${M[9]}"
+read -t 5
+du -sh "$IMG2"
+pv -p -e -t -a -r -b "$IMG2" > "$USB"
+#dd if="$IMG2" of="$USB" bs=1M
+echo -e "${M[10]}"
