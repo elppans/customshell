@@ -21,6 +21,8 @@ auto-configure = deve ficar em /usr/bin e configurado para iniciar ao login em a
 update-vbox-extension = Instalação/Atualização da Extensão do Virtual Box - VERSÃO PARA O REPOSITÓRIO OFICIAL DO UBUNTU
 
 dmg2usb = Depende de dmg2img e pv. Extrai a imagem .dmg e copia para o device escolhido para criar um boot OSX
+
+purge-kernels-antigos = Remove kernels não carregados e antigos do sistema: Debian/Ubuntu
 ___
 
 Diversos:
