@@ -39,6 +39,8 @@ ssh-keys = Rezeta todas as chaves SSH, bom para quando o "putty" ou outra aplica
 
 cli_gui.sh = Verifica o tipo do Console, se é GUI ou CLI
 
+debian_XFCE-Minimal_install.sh = Shell simples para instalação MINIMA do GUI XFCE + Pacotes minuciosamente selecionados para Desktop o mais leve possível
+
 ___
 
 Testes:
