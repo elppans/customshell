@@ -43,6 +43,8 @@
 # terminology - Enlightenment efl based terminal emulator
 # geany - fast and lightweight IDE, editor
 
+# A instalação dos pacotes com XFCE, inclui automaticamente os pacotes "lightdm, lightdm-gtk-greeter e light-locker"
+
 #IDU0
 if [ "$(id -u)" != "0" ]; then
 echo "Deve executar o comando como super usuario!"
@@ -121,6 +123,7 @@ fi
 	echo "Se necessário, deverá instalar manualmente o navegador de sua preferência!"
 	;;
 	*) navegador_install ;;
+	esac
 }
 navegador_install
 
@@ -208,6 +211,7 @@ clear
 	echo "Use a opção --help ou -h para mais detalhes"
 	;;
 	*) user_samba ;;
+	esac
 }
 user_samba
 
