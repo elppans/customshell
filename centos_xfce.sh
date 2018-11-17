@@ -31,6 +31,9 @@
 # file-roller transmission-gtk gedit
 # chromium
 
+###	Requerido
+# @Fonts = ssh + X
+
 yum updateinfo
 yum -y remove selinux
 yum -y install epel-release yum-utils
@@ -42,6 +45,10 @@ yum -y --exclude=gdm install @"X Window System" @Fonts @xfce \
 xfce4-whiskermenu-plugin xfce4-screenshooter lightdm lightdm-gtk gvfs-fuse ntfs-3g \
 ristretto xterm zathura htop nano wget mlocate zip unzip net-tools \
 file-roller transmission-gtk gedit chromium
+
+echo -e "\nPort 22\nProtocol 2\nPermitRootLogin yes\nX11Forwarding yes" | tee -a /etc/ssh/sshd_config
+echo -e '#/bin/bash\n\nssh -X -C "$@"' | tee "/usr/bin/ssh-x"
+chmod +x "/usr/bin/ssh-x"
 
 wget https://github.com/elppans/conf/raw/master/skel_co7.v2.tgz -P /tmp
 
@@ -56,7 +63,18 @@ echo -e '\niptables -F' | tee -a /etc/rc.local >> /dev/null
 
 ###########################################################################################
 
+#	Acessando o SSH server com suporte de execução de aplicações gráficas: 
+
+# # ssh -X -C usuario@host -p porta
+
+# Ou usar o comando customisado:
+
+# # ssh-x IP
+
+###########################################################################################
+
 ##	XRDP + XFCE
+
 
 # # generate a file called .xsession in your home directory, and set default desktop
 # echo "xfce4-session" > ~/.xsession
