@@ -27,6 +27,10 @@
 
 ###	Instalação XFCE CentOS 7
 
+#	Opcional:
+# file-roller transmission-gtk gedit
+# chromium
+
 yum updateinfo
 yum -y remove selinux
 yum -y install epel-release yum-utils
@@ -36,15 +40,44 @@ yum -y upgrade
 
 yum -y --exclude=gdm install @"X Window System" @Fonts @xfce \
 xfce4-whiskermenu-plugin xfce4-screenshooter lightdm lightdm-gtk gvfs-fuse ntfs-3g \
-ristretto xterm zathura htop nano wget mlocate zip unzip net-tools
-wget https://github.com/elppans/conf/raw/master/skel.tgz -P /tmp
-tar -zxvf /tmp/skel.tgz -C /etc/skel
+ristretto xterm zathura htop nano wget mlocate zip unzip net-tools \
+file-roller transmission-gtk gedit chromium
+
+wget https://github.com/elppans/conf/raw/master/skel_co7.v2.tgz -P /tmp
+
+tar -zxvf /tmp/skel.tgz -C /etc
+
 ls -l /etc/systemd/system/default.target
 systemctl set-default graphical.target
 sed -i "/user_allow_other/s/#//g" /etc/fuse.conf
 #sed -i "s/default/default,relatime/g" /etc/fstab
 sed -i "s/enforcing/disabled/g" /etc/selinux/config
 echo -e '\niptables -F' | tee -a /etc/rc.local >> /dev/null
+
+###########################################################################################
+
+##	XRDP + XFCE
+
+# # generate a file called .xsession in your home directory, and set default desktop
+# echo "xfce4-session" > ~/.xsession
+
+# # enable execute
+# chmod a+x ~/.xsession
+
+# # restart xrdp service
+# systemctl restart xrdp
+
+# # Hint: It works too if you replace `.xsession` with `.Xclients`
+# Now, xrdp works perfectly with Xfce and openbox.
+
+# Ps.: Todos os usuários devem ter os mesmos arquivos
+
+# Fonte:
+# https://github.com/neutrinolabs/xrdp/issues/765#issuecomment-394067006
+
+###########################################################################################
+
+##	VNC via Browser (Fail)
 
 #yum -y install x11vnc novnc libvncserver
 #openssl req -new -x509 -days 365 -nodes -out self.pem -keyout self.pem
@@ -77,9 +110,7 @@ echo -e '\niptables -F' | tee -a /etc/rc.local >> /dev/null
 #Iniciando o servidor da Web e o proxy WebSockets na porta 6080
 #AVISO: nenhum módulo 'numpy', o protocolo HyBi será mais lento
 
-#	Retirado:
-# file-roller transmission-gtk gedit
-# chromium
+
 
 ################
 
