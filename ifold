@@ -1,0 +1,10 @@
+#!/bin/bash
+
+	[ "`id -u`" != "0" ] && \
+		{
+	echo "Necessário ser Super Usuário!"
+	exit 0
+	}
+
+#ifconfig `ifether` hw ether f4:6d:04:77:36:1f up
+ifconfig `ifether` hw ether 14:da:e9:f2:8a:cb up
