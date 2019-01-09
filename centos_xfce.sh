@@ -62,7 +62,7 @@ chmod +x "/usr/bin/ssh-x"
 
 wget https://github.com/elppans/conf/raw/master/skel_co7.v2.tgz -P /tmp
 
-tar -zxvf /tmp/skel.tgz -C /etc
+tar -zxvf /tmp/skel_co7.v2.tgz -C /etc
 
 ls -l /etc/systemd/system/default.target
 systemctl set-default graphical.target
