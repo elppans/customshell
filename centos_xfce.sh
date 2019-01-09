@@ -30,19 +30,29 @@
 #	Opcional:
 # file-roller transmission-gtk gedit
 # chromium
+# xrdp xorgxrdp = servidor RDP e conjunto de módulos X11 que fazem o Xorg funcionar como um backend para o xrdp
 
 ###	Requerido
 # @Fonts = ssh + X
 
+### Retirado
+# lightdm lightdm-gtk = Gerenciador de Login
+
+### Readicionado (removido de "--exclude=")"
+# gdm  = Gerenciador de Login
+
+### Adicionado
+# ntsysv = interface simples para definir quais serviços do sistema são iniciados ou parados em vários runlevels
+
+yum-config-manager --save --setopt=protected_multilib=false >> /dev/null
 yum updateinfo
 yum -y remove selinux
 yum -y install epel-release yum-utils
-yum-config-manager --save --setopt=protected_multilib=false >> /dev/null
 yum updateinfo
 yum -y upgrade
 
-yum -y --exclude=gdm install @"X Window System" @Fonts @xfce \
-xfce4-whiskermenu-plugin xfce4-screenshooter lightdm lightdm-gtk gvfs-fuse ntfs-3g \
+yum -y install @"X Window System" @Fonts @xfce \
+xfce4-whiskermenu-plugin xfce4-screenshooter gvfs-fuse ntfs-3g \
 ristretto xterm zathura htop nano wget mlocate zip unzip net-tools \
 file-roller transmission-gtk gedit chromium
 
@@ -60,6 +70,10 @@ sed -i "/user_allow_other/s/#//g" /etc/fuse.conf
 #sed -i "s/default/default,relatime/g" /etc/fstab
 sed -i "s/enforcing/disabled/g" /etc/selinux/config
 echo -e '\niptables -F' | tee -a /etc/rc.local >> /dev/null
+echo "xfce4-session" | tee /etc/skel/.xsession >> /dev/null
+echo "xfce4-session" | tee /etc/skel/.Xclients >> /dev/null
+echo "xfce4-session" | tee ~/.xsession >> /dev/null
+echo "xfce4-session" | tee ~/.Xclients >> /dev/null
 
 ###########################################################################################
 
