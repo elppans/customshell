@@ -44,10 +44,11 @@
 ### Adicionado
 # ntsysv = interface simples para definir quais serviços do sistema são iniciados ou parados em vários runlevels
 
-yum-config-manager --save --setopt=protected_multilib=false >> /dev/null
+
 yum updateinfo
 yum -y remove selinux
 yum -y install epel-release yum-utils
+yum-config-manager --save --setopt=protected_multilib=false >> /dev/null
 yum updateinfo
 yum -y upgrade
 
