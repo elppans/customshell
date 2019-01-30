@@ -75,6 +75,10 @@ echo "xfce4-session" | tee /etc/skel/.xsession >> /dev/null
 echo "xfce4-session" | tee /etc/skel/.Xclients >> /dev/null
 echo "xfce4-session" | tee ~/.xsession >> /dev/null
 echo "xfce4-session" | tee ~/.Xclients >> /dev/null
+chmod a+x /etc/skel/.xsession
+chmod a+x /etc/skel/.Xclients
+chmod a+x ~/.xsession
+chmod a+x ~/.Xclients
 
 ###########################################################################################
 
