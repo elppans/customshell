@@ -64,6 +64,7 @@ Laboratório:
 pathcomum_on = [ Laboratório ] - Em "LOOPING INFINITO", verifica se o path_comum está montado, caso não tiver, monta automaticamente. Para usá-lo como padrão, deve usar o anulando com o -String- "2>&1 &"
 
 mv_conv = [laboratório ] - Converte os movimentos do PDV
+geratrab.sh = [laboratório ] - Versão melhorada de mv_conv. Converte os movimentos e faz a SOMA
 
 ctsat = [ Laboratório ] - Comando para usar o ctsat do PDV, com suporte a BG
 
