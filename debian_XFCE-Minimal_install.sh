@@ -2,6 +2,15 @@
 
 ### Ps.: Para o gerenciador de Login, edite e troque USUARIO pelo nome de seu usuário do sistema
 
+# Atualização 19.04.2019:
+# Removido link do Mint do xfce4-whiskermenu-plugin e adicionado pacote oficial do Debian. A partir do Debian Teste (21.01.2019)
+
+#xfce4-mount-plugin - extensão de montagem para o painel do Xfce4
+#gtk2-engines-xfce - motor de temas GTK+-2.0 para o Xfce
+#gtk3-engines-xfce - GTK+-3.0 theme engine for Xfce
+#xfce4-settings - aplicação gráfica para gerir as configurações do Xfce
+#thunar-volman - extensões do Thunar para a gerencia de volumes
+
 ## Instalação do sistema, apenas "Utilitário Standard de Sistema"
 ## Pacotes instalados
 # xfce4 - Xfce Lightweight Desktop Environment
@@ -75,7 +84,7 @@ checkArchitecture
 echo "$archName"
 
 apt-get update
-apt-get -y install xfce4 xfce4-power-manager thunar-archive-plugin wicd htop sakura scrot medit mirage zathura vlc alsa-utils \
+apt-get -y install xfce4 xfce4-power-manager xfce4-whiskermenu-plugin xfce4-mount-plugin gtk2-engines-xfce gtk3-engines-xfce xfce4-settings thunar-archive-plugin thunar-volman wicd htop sakura scrot medit mirage zathura vlc alsa-utils \
 openssh-server samba winbind libnss-winbind cifs-utils fusesmb gvfs-backends ntpdate deborphan rcconf screenfetch \
 zip lhasa arj p7zip p7zip-full p7zip-rar unrar rar unace 
 #slim
@@ -85,11 +94,6 @@ wget -c https://github.com/elppans/thunar-shares-plugin/raw/master/thunar-shares
 dpkg -i /tmp/thunar-shares-plugin-0.2.0.git-5_amd64.deb
 rm -rf /tmp/thunar-shares-plugin-0.2.0.git-5_amd64.deb
 
-# Pacote Wisker Menú para usar no XFCE
-#https://launchpad.net/~gottcode/+archive/ubuntu/gcppa/+packages
-wget -c https://launchpad.net/~gottcode/+archive/ubuntu/gcppa/+files/xfce4-whiskermenu-plugin_1.7.5-0ppa1~xenial1_amd64.deb -P /tmp/xfce4-whiskermenu-plugin_1.7.5-0ppa1~xenial1_amd64.deb
-dpkg -i /tmp/xfce4-whiskermenu-plugin_1.7.5-0ppa1~xenial1_amd64.deb
-rm -rf /tmp/xfce4-whiskermenu-plugin_1.7.5-0ppa1~xenial1_amd64.deb
 
 
 read -t 5
@@ -115,7 +119,7 @@ if [ "$archName" = i386 ];then
 	read -t 5
   else
 	mkdir -p /tmp
-	apt-get clean ; wget -c https://dl.google.com/linux/direct/google-chrome-stable_current_"$archName".deb -P /tmp ; dpkg -i google-chrome-stable_current_"$archName".deb ; apt-get -f install ; rm -rfv /tmp/google-chrome-stable_current_"$archName".deb
+	apt-get clean ; wget -c https://dl.google.com/linux/direct/google-chrome-stable_current_"$archName".deb -P /tmp ; dpkg -i /tmp/google-chrome-stable_current_"$archName".deb ; apt-get -f install ; rm -rfv /tmp/google-chrome-stable_current_"$archName".deb
 fi
 	;;
 	0)
