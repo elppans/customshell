@@ -23,6 +23,10 @@ update-vbox-extension = Instalação/Atualização da Extensão do Virtual Box -
 dmg2usb = Depende de dmg2img e pv. Extrai a imagem .dmg e copia para o device escolhido para criar um boot OSX
 
 purge-kernels-antigos = Remove kernels não carregados e antigos do sistema: Debian/Ubuntu
+
+dpkg-pac-desc = Mostra descrição "resumida" de um pacote .deb
+
+dpkg-find-desc = Procura todos os pacotes .deb local, mostra a descrição "resumida" e grava em um arquivo Packages.md
 ___
 
 Diversos:
