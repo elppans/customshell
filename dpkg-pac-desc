@@ -1,0 +1,2 @@
+#!/bin/bash
+dpkg -I "$@" | grep "Package\|Version\|Architecture\|Description" ; echo ""

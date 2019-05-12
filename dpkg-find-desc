@@ -1,0 +1,11 @@
+#!/bin/bash
+
+PWD=`pwd`
+PAC="Packages.md"
+VERPAC=$(dpkg -I `ls -1 nvidia-driver*_amd64.deb | head -n1` | grep Ver | cut -d ":" -f "2")
+echo -e "## Available Packages, NVidia Driver "$VERPAC":" | tee "$PWD"/"$PAC"
+echo -e "------" | tee -a "$PWD"/"$PAC"
+echo -e "\`\`\`" | tee -a "$PWD"/"$PAC"
+find ./* -type f -name "*.deb" -exec dpkg-pac-desc "{}" \; | tee -a "$PWD"/"$PAC"
+echo -e "\`\`\`" | tee -a "$PWD"/"$PAC"
+
