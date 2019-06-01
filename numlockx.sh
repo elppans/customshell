@@ -6,17 +6,18 @@
 	sudo apt -y install numlockx
 }
 
-echo -e "#/bin/bash\n\nnumlockx on\n" | sudo tee /usr/bin/numlockx_on >> /dev/null
+echo -e "#/bin/bash\n\nnumlockx on\nsleep 2" | sudo tee /usr/bin/numlockx_on >> /dev/null
 sudo chmod +x /usr/bin/numlockx_on
 
 
 mkdir -p ~/.config/autostart
 touch ~/.config/autostart/numlockx_on.desktop
+chmod +x ~/.config/autostart/numlockx_on.desktop
 
 cat >> ~/.config/autostart/numlockx_on.desktop<<EOF
 [Desktop Entry]
 Type=Application
-Exec=xterm -e numlockx_on
+Exec=numlockx_on
 Hidden=false
 NoDisplay=false
 X-GNOME-Autostart-enabled=true
