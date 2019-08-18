@@ -45,6 +45,8 @@ cli_gui.sh = Verifica o tipo do Console, se é GUI ou CLI
 
 debian_XFCE-Minimal_install.sh = Shell simples para instalação MINIMA do GUI XFCE + Pacotes minuciosamente selecionados para Desktop o mais leve possível
 
+centos_xfce.sh = Instalação XFCE Minimal no CentOS 7 (apenas a base)
+centos_vnc-web.sh = Instalação do VNC versão WEB no CentOS 7 (via github)
 ___
 
 Testes:
