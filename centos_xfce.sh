@@ -34,6 +34,8 @@
 # file-roller: File Roller is an application for creating and viewing archives files, such as tar or zip files.
 # gedit: gedit is a small, but powerful text editor designed specifically for the GNOME desktop.
 # gvfs-fuse: This package provides support for applications not using gio to access the gvfs filesystems.
+# gvfs-archive: This package provides support for accessing files inside Zip and Tar archives, as well as ISO images, to applications using gvfs.
+# gvfs-smb: This package provides support for reading and writing files on windows shares (SMB) to applications using gvfs.
 # htop: htop is an interactive text-mode process viewer for Linux, similar to top(1).
 # mlocate: mlocate is a locate/updatedb implementation.
 # nano: GNU nano is a small and friendly text editor.
@@ -74,7 +76,7 @@ yum updateinfo
 yum -y upgrade
 
 yum -y install @"X Window System" @Fonts @xfce \
-xfce4-screenshooter ntsysv gvfs-fuse ntfs-3g \
+xfce4-screenshooter ntsysv gvfs-fuse gvfs-archive gvfs-smb ntfs-3g \
 ristretto xterm zathura htop nano wget mlocate zip unzip net-tools \
 file-roller gedit chromium
 
