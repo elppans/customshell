@@ -26,17 +26,38 @@
 
 
 ###	Instalação XFCE CentOS 7
+##  Pacotes:
+# @"X Window System": X Window System Support (Requerido)
+# @Fonts: Fontes para renderizar textos em uma variedade de línguas e scripts. (requerido)
+# @xfce: Um ambiente de trabalho leve que funciona bem em máquinas de baixo custo. (requerido - ssh+X)
+# chromium: Chromium is an open-source web browser, powered by WebKit (Blink).
+# file-roller: File Roller is an application for creating and viewing archives files, such as tar or zip files.
+# gedit: gedit is a small, but powerful text editor designed specifically for the GNOME desktop.
+# gvfs-fuse: This package provides support for applications not using gio to access the gvfs filesystems.
+# htop: htop is an interactive text-mode process viewer for Linux, similar to top(1).
+# mlocate: mlocate is a locate/updatedb implementation.
+# nano: GNU nano is a small and friendly text editor.
+# net-tools: The net-tools package contains basic networking tools, including ifconfig, netstat, route, and others.
+# ntfs-3g: NTFS-3G is a stable, open source, GPL licensed, POSIX, read/write NTFS driver for Linux and many other operating systems.
+# ristretto: Ristretto is a fast and lightweight image-viewer for the Xfce desktop environment.
+# transmission-gtk: GTK graphical interface of Transmission BitTorrent client.
+# unzip: The unzip utility is used to list, test, or extract files from a zip archive.
+# wget: GNU Wget is a file retrieval utility which can use either the HTTP or FTP protocols.
+# xfce4-screenshooter: The Xfce Screenshooter utility allows you to capture the entire screen, the active window or a selected region.
+# xfce4-whiskermenu-plugin: Alternate application launcher for Xfce.
+# xterm: The xterm program is a terminal emulator for the X Window System.
+# zathura: Zathura is a highly customizable and functional document viewer.
+# zip: The zip program is a compression and file packaging utility.
 
 #	Opcional:
 # file-roller transmission-gtk gedit
 # chromium
 # xrdp xorgxrdp = servidor RDP e conjunto de módulos X11 que fazem o Xorg funcionar como um backend para o xrdp
 
-###	Requerido
-# @Fonts = ssh + X
-
 ### Retirado
 # lightdm lightdm-gtk = Gerenciador de Login
+# xfce4-whiskermenu-plugin
+# transmission-gtk
 
 ### Readicionado (removido de "--exclude=")"
 # gdm  = Gerenciador de Login
@@ -53,17 +74,16 @@ yum updateinfo
 yum -y upgrade
 
 yum -y install @"X Window System" @Fonts @xfce \
-xfce4-whiskermenu-plugin xfce4-screenshooter gvfs-fuse ntfs-3g \
+xfce4-screenshooter ntsysv gvfs-fuse ntfs-3g \
 ristretto xterm zathura htop nano wget mlocate zip unzip net-tools \
-file-roller transmission-gtk gedit chromium
+file-roller gedit chromium
 
 echo -e "\nPort 22\nProtocol 2\nPermitRootLogin yes\nX11Forwarding yes" | tee -a /etc/ssh/sshd_config
 echo -e '#/bin/bash\n\nssh -X -C "$@"' | tee "/usr/bin/ssh-x"
 chmod +x "/usr/bin/ssh-x"
 
-wget https://github.com/elppans/conf/raw/master/skel_co7.v2.tgz -P /tmp
-
-tar -zxvf /tmp/skel_co7.v2.tgz -C /etc
+#wget https://github.com/elppans/conf/raw/master/skel_co7.v2.tgz -P /tmp
+#tar -zxvf /tmp/skel_co7.v2.tgz -C /etc
 
 ls -l /etc/systemd/system/default.target
 systemctl set-default graphical.target
@@ -94,7 +114,6 @@ chmod a+x ~/.Xclients
 
 ##	XRDP + XFCE
 
-
 # # generate a file called .xsession in your home directory, and set default desktop
 # echo "xfce4-session" > ~/.xsession
 
@@ -113,43 +132,6 @@ chmod a+x ~/.Xclients
 # https://github.com/neutrinolabs/xrdp/issues/765#issuecomment-394067006
 
 ###########################################################################################
-
-##	VNC via Browser (Fail)
-
-#yum -y install x11vnc novnc libvncserver
-#openssl req -new -x509 -days 365 -nodes -out self.pem -keyout self.pem
-#echo -e 'centos\ncentos' | x11vnc -storepasswd
-#novnc_server --vnc 127.0.0.1:5900
-#x11vnc -forever -display :0 -cursor arrow -shared -rfbport 5900 -permitfiletransfer -localhost
-
-#yum -y install tigervnc-server xorg-x11-fonts-Type1
-#echo -e 'centos\ncentos' | vncpasswd
-#iptables -A INPUT -m state --state NEW -m tcp -p tcp --dport 5901 -j ACCEPT
-#iptables -I INPUT 5 -m state --state NEW -m tcp -p tcp -m multiport --dports 5902:5904 -j ACCEPT
-#service iptables save
-#service iptables restart
-#yum -y install java-1.8.0-openjdk
-#yum -y install httpd httpd-devel
-
-#mkdir -p /var/www/html/vncweb
-#cd /var/www/html/vncweb
-#wget http://www.tightvnc.com/download/2.7.2/tvnjviewer-2.7.2-bin.zip
-#unzip -o tvnjviewer-2.7.2-bin.zip 
-#mv viewer-applet-example.html index.htmlwwww
-#https://www.tecmint.com/install-tightvnc-remote-desktop/
-
-
-
-#Warning: could not find self.pem
-#Starting webserver and WebSockets proxy on port 6080
-#WARNING: no 'numpy' module, HyBi protocol will be slower
-#Aviso: não foi possível encontrar self.pem
-#Iniciando o servidor da Web e o proxy WebSockets na porta 6080
-#AVISO: nenhum módulo 'numpy', o protocolo HyBi será mais lento
-
-
-
-################
 
 #	Antes:
 #free -m
