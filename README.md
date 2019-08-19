@@ -47,6 +47,8 @@ debian_XFCE-Minimal_install.sh = Shell simples para instalação MINIMA do GUI X
 
 centos_xfce.sh = Instalação XFCE Minimal no CentOS 7 (apenas a base)
 centos_vnc-web.sh = Instalação do VNC versão WEB no CentOS 7 (via github)
+
+log.sh = Código para adicionar em outros Shells para fazer logs
 ___
 
 Testes:
