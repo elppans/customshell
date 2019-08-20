@@ -51,4 +51,4 @@ systemctl enable x11vnc-browser.service
 
 # Backup:
 cd /opt
-tar -zcvf kanaka-novnc_git-`date +%d%m%y`.tgz /usr/share/kanaka-noVNC /usr/bin/x11vnc-browser /etc/systemd/system/x11vnc-browser.service
+tar -zcvf kanaka-novnc_git-`date +%d%m%y`.tgz /usr/share/kanaka-noVNC /usr/bin/novnc /usr/bin/x11vnc-browser /etc/systemd/system/x11vnc-browser.service
