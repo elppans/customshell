@@ -1,0 +1,69 @@
+Criar arquivo ZAN
+
+https://raw.githubusercontent.com/elppans/customshell/master/geratrab.sh
+
+mv_conv = [laboratório ] - Converte os movimentos do PDV
+geratrab.sh = [laboratório ] - Versão melhorada de mv_conv. Converte os movimentos e faz a SOMA
+
+Verificar no Manager, Gerenciamento de Lojas quais PDVs teve movimentos.
+
+No path_comum deve haver a pasta MV e subpastas com o formato (o path_comum deve estar montado):
+
+AAAAMMDD.ECF
+
+PDVs que Teve movimento mas não criou a pasta em path_comum/MV
+
+São 2 formas para obter a pasta:
+
+1º) Função 189
+Ele pede a data, basta colocar a data que quer o movimento. 
+Se tiver o movimento, irá criar a pasta e adicionar o movimento lá
+
+2º) Modo manual:
+
+2.1) Na pasta path_comum/MV, criar uma pasta correspondente à data especificada.ECF
+2.2) Na pasta pdvJava, com o comando ls -ltr *.ZMV, pegar o arquivo que corresponde com a data e copiar para path_comum/MV/AAAAMMDD.ECF
+2.3) Renomear o arquivo ZMV copiado para "TH01HKCZ.TRA". O arquivo lnx_conv_XX deve estar junto 
+XX = ZMAN Correspondente: CZ, CW, etc...
+2.4) voltando à pasta path_comum/MV, usar o Script geratrab.sh
+
+3) geratrab.sh
+
+Dependência:
+Deve existir o comando lnx_conv na pasta /usr/bin
+No PDV que irá fazer o trabalho, basta fazer um link. Exemplo:
+ln -sf /Zanthus/Zeus/pdvJava/lnx_conv_CZ /usr/bin/lnx_conv_CZ
+
+
+___
+Vovó Zuzu:
+
+As vezes, um PDV pode estar com 2 fechamentos em 1 dia só.
+Quando isso ocorrer, crie uma pasta qualquer no path_comum e os 2 arquivos ZMV para esta pasta.
+Com os arquivos copiados, converter para TXT.
+Para converter, deve renomear o arquivo *.ZMV especificamente para "TH01HKCZ.TRA" e depois usar o lnx_conv com a opção -m.
+Com isso, irá surgir o arquivo TRAB1.SDF, deve renomear para o nome antigo do arquivo, mas com a extensão .TRA
+
+Por exemplo:
+mkdir /Zanthus/Zeus/path_comum/PDV_ZMV/110_20190923/3J03AZCZ
+mkdir /Zanthus/Zeus/path_comum/PDV_ZMV/110_20190923/3203AZCZ
+cp /Zanthus/Zeus/pdvJava/3J03AZCZ.ZMV 110_20190923/3J03AZCZ
+cp /Zanthus/Zeus/pdvJava/3203AZCZ.ZMV 110_20190923/3203AZCZ
+
+cd 3J03AZCZ
+cp -v 3J03AZCZ.ZMV TH01HKCZ.TRA
+./lnx_conv_CZ -m
+mv TRAB1.SDF 3J03AZCZ.TRA
+
+cd ../3203AZCZ
+mv 3203AZCZ.ZMV TH01HKCZ.TRA
+./lnx_conv_CZ -m
+mv TRAB1.SDF 3203AZCZ.TRA
+
+Copiar as pastas para computador local e usar o programa de Soma.
+Comparar o que mais se aproxima com o valor apresentado no Manager.
+Controle > Gerenciamento de Loja > Filtro do dia > ECF
+
+Achando o arquivo do dia que for o correto, copie  o arquivo com o nome "TH01HKCZ.TRA" para a pasta AAAAMMDD.ECF criada em path_comum/MV
+
+
