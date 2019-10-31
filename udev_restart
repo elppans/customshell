@@ -1,0 +1,12 @@
+#!/bin/bash
+
+/etc/init.d/udev stop
+udevadm control --reload
+udevadm control --reload-rules
+udevadm trigger
+udevadm trigger --action=change
+udevadm trigger --type=devices
+udevadm trigger --attr-match=subsystem=tty
+udevadm trigger --action=add
+/etc/init.d/udev start
+
