@@ -81,3 +81,5 @@ pdvinit2 = [ Laboratório ] - Comando para escolher qual o init escolher após F
 desligar.sh = [ Laboratório ] - Comando em GUI (Zenity) indicando em barra de contagem por tempo (em segundos) para desligar o sistema
 
 remaster_Lu12RC26_kernel420 = [ Laboratório ] -  Atualização do Kernel e remasterização 
+
+udev_restart = restarta serviços e regras do PDV
