@@ -1,0 +1,11 @@
+#!/bin/bash
+cd /Zanthus/Zeus/lib
+wget -c ftp://ftp.zanthus.com.br:2142/pub/Zeus_Frente_de_Loja/_Complementares/so/*
+cd -
+cd /Zanthus/Zeus/lib_co5
+wget -c ftp://ftp.zanthus.com.br:2142/pub/Zeus_Frente_de_Loja/_Complementares/so_co5/*
+cd -
+mkdir -p /Zanthus/Zeus/lib_ubu
+cd /Zanthus/Zeus/lib_ubu
+wget -c ftp://ftp.zanthus.com.br:2142/pub/Zeus_Frente_de_Loja/_Complementares/so_ubu/*
+cd -
