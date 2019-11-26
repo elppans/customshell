@@ -7,10 +7,11 @@ echo "on" | tee /sys/bus/usb/devices/usb*/power/control
 
 sed -i "s/exit 0//g" /etc/rc.local
 echo -e '
-echo "-1" | tee /sys/module/usbcore/parameters/autosuspend
-echo "-1" | tee /sys/bus/usb/devices/usb*/power/autosuspend
-echo "-1" | tee /sys/bus/usb/devices/usb*/power/autosuspend_delay_ms
-echo "on" | tee /sys/bus/usb/devices/usb*/power/control
+  echo "usbcore on"
+echo "-1" | tee /sys/module/usbcore/parameters/autosuspend >> /dev/null
+echo "-1" | tee /sys/bus/usb/devices/usb*/power/autosuspend >> /dev/null
+echo "-1" | tee /sys/bus/usb/devices/usb*/power/autosuspend_delay_ms >> /dev/null
+echo "on" | tee /sys/bus/usb/devices/usb*/power/control >> /dev/null
 \n\nexit 0
 ' | sudo tee -a /etc/rc.local
 
