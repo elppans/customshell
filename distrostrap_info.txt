@@ -1,0 +1,40 @@
+# Ativar repositórios contrib e non-free no sources.list
+
+## Instalando pacotes necessários:
+
+sudo  apt update
+sudo apt -y install debootstrap
+sudo  apt -y install lsb-release locales sudo reprepro git 
+usermod -G netdev -a $USER
+
+Baixe estes comandos para o sistema (OPCIONAL):
+(Customização para compilação pessoal)
+
+sudo wget --no-check-certificate https://raw.githubusercontent.com/elppans/customshell/master/dpkg-find-desc -P /usr/bin/ ; sudo chmod +x /usr/bin/dpkg-find-desc
+sudo wget --no-check-certificate https://raw.githubusercontent.com/elppans/customshell/master/dpkg-pac-desc -P /usr/bin/ ; sudo chmod +x /usr/bin/dpkg-pac-desc
+
+Baixe o arquivo customizado do debootstrap para Deepin Lion:
+
+sudo wget --no-check-certificate https://raw.githubusercontent.com/elppans/customshell/master/debootstrap_lion -O /usr/share/debootstrap/scripts/lion
+
+
+Crie uma pasta onde será construido o chroot:
+
+mkdir -p deepin
+
+Para construir o build chroot, faça o comando:
+
+./distrostrap --build-deepin --variant=buildd -t deepin
+
+Para acessar posteriormente, faça:
+
+./distrostrap --chroot-deepin
+
+Dentro do chroot:
+
+sudo  apt update
+sudo  apt -y install lsb-release locales
+usermod -G netdev -a $USER
+locale-gen pt_BR.UTF-8
+dpkg-reconfigure locales
+update-locale LANG=pt_BR.UTF-8
