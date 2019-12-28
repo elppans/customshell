@@ -1,0 +1,386 @@
+#!/bin/bash
+
+# BASE
+	COMMAND=`basename "$0"`
+# BASE
+
+##	Usando arquivo de log
+
+mkdir -p "$HOME"/."$COMMAND"
+LOGFILE="$HOME/.$COMMAND/${0##*/}".log
+
+# Habilita log copiando a saída padrão para o arquivo LOGFILE
+
+exec 1> >(tee -a "$LOGFILE")
+
+##	Usando arquivo de log - FIM
+
+#https://wiki.debian.org/pt_BR/Debootstrap
+#https://wiki.debian.org/GrubEFIReinstall
+#https://www.gnu.org/software/grub/manual/grub/html_node/Installing-GRUB-using-grub_002dinstall.html
+#https://www.vivaolinux.com.br/topico/Debian/Recuperar-o-grub-efi
+#https://www.debian.org/releases/stable/mips/apds03.html.pt
+#https://docs.docker.com/storage/bind-mounts/
+#https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/6/html/global_file_system_2/s1-manage-mountorder
+#https://www.vivaolinux.com.br/dica/Fazendo-chroot-facilmente
+#https://casadopinduvoz.wordpress.com/2014/04/08/fazer-chroot-no-ubuntu/
+#https://www.vivaolinux.com.br/dica/Ambiente-seguro-com-chroot
+#https://wiki.sabayon.org/index.php?title=HOWTO:_Restore_Grub2
+
+###
+# Opções:
+
+# Defina a arquitetura de destino
+# ARCH="--arch=i386"
+
+# Nome da variante do script de bootstrap a ser usada. Atualmente, as variantes suportadas são:
+#	minbase, que inclui apenas pacotes essenciais e apt;
+#	buildd, que instala os pacotes essenciais da compilação no TARGET ;
+#	fakechroot, que instala os pacotes sem privilégios de root.
+#	O padrão, sem o argumento --variant = X , é criar uma instalação Debian básica no TARGET 
+#VARIANT="--variant=minbase"
+
+# Pacote debootstrap
+ ! dpkg -l debootstrap | grep ^ii >> /dev/null && \
+	{
+
+	sudo apt install debootstrap
+}
+
+ ! dpkg -l debootstrap | grep ^ii >> /dev/null && \
+	{
+
+	echo -e "Deve instalar o pacote \"debootstrap\"!"
+	exit 0
+}
+# Pacote debootstrap
+
+# ARCH & VARIANT
+case "$2" in
+	--arch=i386)
+	ARCH=--arch=i386
+case "$3" in
+	--variant=minbase)
+	VARIANT="--variant=minbase"
+	;;
+	--variant=buildd)
+	VARIANT="--variant=buildd"
+	;;
+	--variant=fakechroot)
+	VARIANT="--variant=fakechroot"
+	;;
+	*)
+	VARIANT="--variant=minbase"
+	;;
+esac
+	;;
+	--arch=amd64)
+	ARCH=--arch=amd64
+case "$3" in
+	--variant=minbase)
+	VARIANT="--variant=minbase"
+	;;
+	--variant=buildd)
+	VARIANT="--variant=buildd"
+	;;
+	--variant=fakechroot)
+	VARIANT="--variant=fakechroot"
+	;;
+	*)
+	VARIANT="--variant=minbase"
+	;;
+esac
+	;;
+	*)
+	ARCH=
+case "$2" in
+	--variant=minbase)
+	VARIANT="--variant=minbase"
+case "$3" in
+	--arch=i386)
+	ARCH=--arch=i386
+
+	;;
+	--arch=amd64)
+	ARCH=--arch=amd64
+	;;
+	*)
+	ARCH=
+	;;
+esac
+	;;
+	--variant=buildd)
+	VARIANT="--variant=buildd"
+case "$3" in
+	--arch=i386)
+	ARCH=--arch=i386
+
+	;;
+	--arch=amd64)
+	ARCH=--arch=amd64
+	;;
+	*)
+	ARCH=
+	;;
+esac
+	;;
+	--variant=fakechroot)
+	VARIANT="--variant=fakechroot"
+case "$3" in
+	--arch=i386)
+	ARCH=--arch=i386
+
+	;;
+	--arch=amd64)
+	ARCH=--arch=amd64
+	;;
+	*)
+	ARCH=
+	;;
+esac
+	;;
+	*)
+	VARIANT="--variant=minbase"
+	;;
+esac
+	;;
+esac
+# ARCH & VARIANT - FIM
+
+
+case "$1" in
+	# Build Debian
+	--[Bb][Uu][Ii][Ll][Dd]-[Dd][Ee][Bb][Ii][Aa][Nn])
+
+DISTRO=debian
+CODENAME=stretch
+SOURCE=/usr/src/
+TARGET="$SOURCE$CODENAME"
+REPO="http://ftp.br.debian.org/debian"
+BUILDING=1
+
+# TARGET
+case "$2" in
+	-t|--target)
+	export TARGET="$3"
+	;;
+	*)
+case "$3" in
+	-t|--target)
+	export TARGET="$4"
+	;;
+	*)
+case "$4" in
+	-t|--target)
+	export TARGET="$5"
+	;;
+	*)
+	export TARGET="$SOURCE$CODENAME"
+	;;
+esac
+	;;
+esac
+	;;
+esac
+# TARGET - FIM
+	;;
+	# Build Debian - FIM
+
+	# Chroot Debian
+	--[Cc][Hh][Rr][Oo][Oo][Tt]-[Dd][Ee][Bb][Ii][Aa][Nn])
+DISTRO=debian
+CODENAME=stretch
+SOURCE=/usr/src/
+REPO="http://ftp.br.debian.org/debian"
+CHROOTIN=1
+
+# export TARGET in $HOME
+if [  -e "$HOME"/."$COMMAND"/"$COMMAND"."$CODENAME" ]; then
+	export TARGET=`cat "$HOME"/."$COMMAND"/"$COMMAND"."$CODENAME"`
+  else
+	echo "Não foi encontrado "$HOME"/."$COMMAND"/"$COMMAND"."$CODENAME"!"
+	exit 1
+
+fi
+# export TARGET in $HOME - FIM
+	;;
+	# Chroot Debian - FIM
+
+	# Build Deepin
+	--[Bb][Uu][Ii][Ll][Dd]-[Dd][Ee][Ee][Pp][Ii][Nn])
+
+DISTRO=deepin
+CODENAME=lion
+SOURCE=/usr/src/
+TARGET="$SOURCE$CODENAME"
+REPO="http://packages.deepin.com/deepin"
+BUILDING=1
+
+# TARGET
+case "$2" in
+	-t|--target)
+	export TARGET="$3"
+	;;
+	*)
+case "$3" in
+	-t|--target)
+	export TARGET="$4"
+	;;
+	*)
+case "$4" in
+	-t|--target)
+	export TARGET="$5"
+	;;
+	*)
+	export TARGET="$SOURCE$CODENAME"
+	;;
+esac
+	;;
+esac
+	;;
+esac
+# TARGET - FIM
+	;;
+	# Build Deepin - FIM
+
+	# Chroot Deepin
+	--[Cc][Hh][Rr][Oo][Oo][Tt]-[Dd][Ee][Ee][Pp][Ii][Nn])
+DISTRO=deepin
+CODENAME=lion
+SOURCE=/usr/src/
+REPO="http://packages.deepin.com/deepin"
+CHROOTIN=1
+
+# export TARGET in $HOME
+if [  -e "$HOME"/."$COMMAND"/"$COMMAND"."$CODENAME" ]; then
+	export TARGET=`cat "$HOME"/."$COMMAND"/"$COMMAND"."$CODENAME"`
+  else
+	echo "Não foi encontrado "$HOME"/."$COMMAND"/"$COMMAND"."$CODENAME"!"
+	exit 1
+
+fi
+# export TARGET in $HOME - FIM
+	;;
+	# Chroot Deepin - FIM
+
+	--chroot-lo)
+TARGET=`readlink -m "$2"`
+
+# Mount proc sys dev dev/pts in TARGET
+for i in proc sys dev dev/pts; do sudo mount -o bind /$i "$TARGET"/$i; done
+
+# Conectando chroot
+sudo chroot "$TARGET" /bin/bash
+
+# Umount proc sys dev dev/pts in TARGET
+for i in "$TARGET"/proc "$TARGET"/sys "$TARGET"/dev/pts "$TARGET"/dev; do sudo umount $i; done
+
+	exit 0
+	;;
+	--chroot-lo-run)
+TARGET=`readlink -m "$2"`
+
+# Mount proc sys dev dev/pts in TARGET
+for i in proc sys dev dev/pts run; do sudo mount -o bind /$i "$TARGET"/$i; done
+
+# Conectando chroot
+sudo chroot "$TARGET" /bin/bash
+
+# Umount proc sys dev dev/pts in TARGET
+for i in "$TARGET"/proc "$TARGET"/sys "$TARGET"/dev/pts "$TARGET"/dev "$TARGET"/run; do sudo umount $i; done
+
+	exit 0
+	;;
+	-[Hh]|--[Hh][Ee][Ll][Pp])
+echo -e "
+	"$COMMAND"
+	Comando para criar e gerenciar maquinas \"target\" via bootstrap
+
+  -h,--help		Este menú de ajuda
+  --build-debian	Cria uma máquina debian com suas configurações padrão
+  --chroot-debian	Conecta à maquina debian com \"chroot\"
+  --build-deepin	Cria uma máquina debian com suas configurações padrão
+  --chroot-deepin	Conecta à maquina debian com \"chroot\"
+  --arch={}		Defina a arquitetura de destino, {i386|amd64}. Se omitido, assume arquitetura do sistema anfitrião
+  --variant={}		Defina o variant a ser usada, {minbase|buildd|fakechroot}. Se omitido, assume {minbase}
+	minbase		Inclui apenas pacotes essenciais e apt;
+	buildd		Instala os pacotes essenciais da compilação no TARGET ;
+	fakechroot	Instala os pacotes sem privilégios de root.
+  -t|--target {}		Local onde será criado a máquina chroot. Se omitido assume o padrão {/usr/src/(CODENAME)}
+
+"
+	exit 0
+	;;
+	*)
+	echo -e "\nParâmetro errado, digite a opção [-h|--help] para mais informações!\n"
+	exit 1
+
+	;;
+esac
+
+##	BUILD CHROOT
+if [ "$BUILDING" == "1" ]; then
+###
+sudo mkdir -p "$TARGET"
+sudo chown "$USER"."$USER" "$TARGET"
+echo "$CODENAME" "$TARGET" "$REPO" "$ARCH" "$VARIANT"
+sudo debootstrap "$CODENAME" "$TARGET" "$REPO" "$ARCH" "$VARIANT"
+
+# TARGET in $HOME
+if [ -d "$TARGET" ]; then
+	touch "$HOME"/."$COMMAND"/"$COMMAND"."$CODENAME"
+	echo -e ""$TARGET"" | tee "$HOME"/."$COMMAND"/"$COMMAND"."$CODENAME" >> /dev/null
+fi
+# TARGET in $HOME - FIM
+
+# Copiando arquivos para configuracao.
+#cp -f /etc/network/interfaces "$TARGET"/etc/network/
+#cp -f /etc/resolv.conf "$TARGET"/etc/
+#cp -f /etc/hosts "$TARGET"/etc/
+#cp -f /etc/hostname "$TARGET"/etc/
+#echo "$CODENAME" > "$TARGET"/etc/hostname
+
+#sudo sed -i "/"$SOURCE"/"$CODENAME"/d" /etc/fstab
+#echo "debootstrap para "$DISTRO" "$CODENAME"" | sudo tee -a /etc/fstab 
+#echo "proc "$TARGET"/proc proc defaults 0 0" | sudo tee -a /etc/fstab 
+#echo "sysfs "$TARGET"/sys sysfs defaults 0 0" | sudo tee -a /etc/fstab 
+#echo "dev "$TARGET"/dev dev defaults 0 0" | sudo tee -a /etc/fstab 
+#sudo mount proc "$TARGET"/proc -t proc 
+#sudo mount sysfs "$TARGET"/sys -t sysfs
+
+#mount -o bind /proc "$TARGET"/proc
+#mount -o bind /sys "$TARGET"/sys
+#mount -o rbind /dev "$TARGET"/dev
+
+# mount -o bind /tmp "$TARGET"/tmp # Deve usar apenas se o sistema "debootstrap" for O MESMO que o sistema anfitrião
+# mount -o bind /run /target/run # Deve usar apenas se o sistema "debootstrap" for O MESMO que o sistema anfitrião
+
+mkdir -p "$TARGET"/proc "$TARGET"/sys "$TARGET"/dev/pts "$TARGET"/dev  "$TARGET"/run
+
+# Mount proc sys dev dev/pts in TARGET
+for i in proc sys dev dev/pts; do sudo mount -o bind /$i "$TARGET"/$i; done
+
+# Conectando chroot
+sudo chroot "$TARGET" /bin/bash
+
+# Umount proc sys dev dev/pts in TARGET
+for i in "$TARGET"/proc "$TARGET"/sys "$TARGET"/dev/pts "$TARGET"/dev; do sudo umount $i; done
+
+	exit 0
+fi
+##	BUILD CHROOT
+
+##	OPEN CHROOT
+if [ "$CHROOTIN" == "1" ]; then
+# Mount proc sys dev dev/pts in TARGET
+for i in proc sys dev dev/pts; do sudo mount -o bind /$i "$TARGET"/$i; done
+
+# Conectando chroot
+sudo chroot "$TARGET" /bin/bash
+
+# Umount proc sys dev dev/pts in TARGET
+for i in "$TARGET"/proc "$TARGET"/sys "$TARGET"/dev/pts "$TARGET"/dev; do sudo umount $i; done
+
+	exit 0
+fi
+##	OPEN CHROOT
