@@ -1,0 +1,44 @@
+#!/bin/bash
+
+##	Configurando remoção SDF após N dias:
+# Deve editar o crontab:
+# sudo nano /etc/crontab
+## Remover SDF mais antigos, de 14 dias para mais
+# 0 22 * * * root /usr/bin/sdf_remove
+# Para configurar o limite de dias para remover um SDF antigo,
+# deve editar o arquivo /usr/bin/sdf_remove e modificar a variável "days":
+# days=14
+# Na configuração do limite de dias, o comando remove o backup de 1 dia após. 
+# Portanto, se eu deixo configurado para 14 dias, o comando irá esperar 15 dias e remover o 16º.
+
+# REMOVE SDF
+path=/usr/local/apache22/htdocs/manager/Arquivos/1/
+timestamp=$(date +%Y%m%d_%H%M%S)    
+filename=log_$timestamp.log    
+log=$path$filename
+extension=".sdf*"
+extlog=".log"
+days=3
+# REMOVE SDF
+
+START_TIME=$(date +%s)
+echo -e "Removendo "$extension" de "$days" dias para mais em "$path"..."
+find $path -maxdepth 1 -name "*"$extension""  -type f -mtime +$days  -print -delete >> $log
+find $path -maxdepth 1 -name "*"$extlog""  -type f -mtime +$days  -print -delete
+
+echo "SDF:: Script Start -- $(date +%Y%m%d_%H%M)" >> $log
+
+
+#... code for SDF ...or any other operation .... >> $log
+
+
+END_TIME=$(date +%s)
+
+ELAPSED_TIME=$(( $END_TIME - $START_TIME ))
+
+
+echo "SDF :: Script End -- $(date +%Y%m%d_%H%M)" >> $log
+echo "Elapsed Time ::  $(date -d 00:00:$ELAPSED_TIME +%Hh:%Mm:%Ss) "  >> $log
+sleep 2
+echo -e "Removido "$extension" de "$days" dias para mais em "$path"..."
+exit 0
