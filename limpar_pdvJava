@@ -1,0 +1,17 @@
+#!/bin/bash
+
+find pdvJava/ -name *.ZL1 -exec rm -rfv '{}' \;
+find pdvJava/ -name *.NVL -exec rm -rfv '{}' \;
+find pdvJava/ -name *.1VN -exec rm -rfv '{}' \;
+find pdvJava/ -name *.TH00 -exec rm -rfv '{}' \;
+find pdvJava/ -name *.TRA -exec rm -rfv '{}' \;
+find pdvJava/ -name *.PDVPOSTO -exec rm -rfv '{}' \;
+find pdvJava/ -name *.ZZ5 -exec rm -rfv '{}' \;
+find pdvJava/ -name *.dmp -exec rm -rfv '{}' \;
+find pdvJava/ -name *.tmp -exec rm -rfv '{}' \;
+find pdvJava/ -name *.ZMV -exec rm -rfv '{}' \;
+find pdvJava/ -name *~ -exec rm -rfv '{}' \;
+find pdvJava/ -name *.FISCTX -exec rm -rfv '{}' \;
+find pdvJava/ -name *.GZMD -exec rm -rfv '{}' \;
+find pdvJava/ -name *.NV_ -exec rm -rfv '{}' \;
+
