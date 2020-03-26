@@ -92,8 +92,8 @@ chmod +x "/usr/bin/ssh-x"
 ls -l /etc/systemd/system/default.target
 systemctl set-default graphical.target
 sed -i "/user_allow_other/s/#//g" /etc/fuse.conf
-sed -i "/\/ /s/defaults/defaults,noatime/g" /etc/fstab
-sed -i "/\/boot/s/defaults/defaults,relatime/g" /etc/fstab
+#sed -i "/\/ /s/defaults/defaults,noatime/g" /etc/fstab
+#sed -i "/\/boot/s/defaults/defaults,relatime/g" /etc/fstab
 sed -i "s/enforcing/disabled/g" /etc/selinux/config
 echo -e '\niptables -F' | tee -a /etc/rc.local >> /dev/null
 echo "mate-session" | tee /etc/skel/.xsession >> /dev/null
