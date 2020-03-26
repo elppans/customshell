@@ -27,13 +27,11 @@
 # https://unix.stackexchange.com/questions/262219/how-to-use-web-browser-as-vnc-client
 
 
-###	Instalação XFCE CentOS 7
+###	Instalação MATE CentOS 7
 ##  Pacotes:
 # @"X Window System": X Window System Support (Requerido)
 # @Fonts: Fontes para renderizar textos em uma variedade de línguas e scripts. (requerido)
-# @xfce: Um ambiente de trabalho leve que funciona bem em máquinas de baixo custo. (requerido - ssh+X)
-# chromium: Chromium is an open-source web browser, powered by WebKit (Blink).
-# file-roller: File Roller is an application for creating and viewing archives files, such as tar or zip files.
+# lightdm = Gerenciador de Login
 # gedit: gedit is a small, but powerful text editor designed specifically for the GNOME desktop.
 # gvfs-fuse: This package provides support for applications not using gio to access the gvfs filesystems.
 # gvfs-archive: This package provides support for accessing files inside Zip and Tar archives, as well as ISO images, to applications using gvfs.
@@ -43,28 +41,15 @@
 # nano: GNU nano is a small and friendly text editor.
 # net-tools: The net-tools package contains basic networking tools, including ifconfig, netstat, route, and others.
 # ntfs-3g: NTFS-3G is a stable, open source, GPL licensed, POSIX, read/write NTFS driver for Linux and many other operating systems.
-# ristretto: Ristretto is a fast and lightweight image-viewer for the Xfce desktop environment.
-# transmission-gtk: GTK graphical interface of Transmission BitTorrent client.
 # unzip: The unzip utility is used to list, test, or extract files from a zip archive.
 # wget: GNU Wget is a file retrieval utility which can use either the HTTP or FTP protocols.
-# xfce4-screenshooter: The Xfce Screenshooter utility allows you to capture the entire screen, the active window or a selected region.
-# xfce4-whiskermenu-plugin: Alternate application launcher for Xfce.
 # xterm: The xterm program is a terminal emulator for the X Window System.
 # zathura: Zathura is a highly customizable and functional document viewer.
 # zip: The zip program is a compression and file packaging utility.
 
 #	Opcional:
-# file-roller transmission-gtk gedit
-# chromium
+
 # xrdp xorgxrdp = servidor RDP e conjunto de módulos X11 que fazem o Xorg funcionar como um backend para o xrdp
-
-### Retirado
-# lightdm lightdm-gtk = Gerenciador de Login
-# xfce4-whiskermenu-plugin
-# transmission-gtk
-
-### Readicionado (removido de "--exclude=")"
-# gdm  = Gerenciador de Login
 
 ### Adicionado
 # ntsysv = interface simples para definir quais serviços do sistema são iniciados ou parados em vários runlevels
@@ -74,9 +59,9 @@
 #yum -y remove selinux
 #yum -y install epel-release yum-utils
 #yum-config-manager --save --setopt=protected_multilib=false >> /dev/null
-#yum updateinfo
-#yum -y upgrade
-yum makecache fast
+yum updateinfo
+yum -y update
+#yum makecache fast
 yum --nogpgcheck install @"X Window System" @Fonts \
 lightdm mate-desktop mate-terminal mate-screenshot caja gedit firefox \
 ntsysv gvfs-fuse gvfs-archive gvfs-smb ntfs-3g \
@@ -85,9 +70,6 @@ xterm zathura htop nano wget mlocate zip unzip net-tools
 #echo -e "\nPort 22\nProtocol 2\nPermitRootLogin yes\nX11Forwarding yes" | tee -a /etc/ssh/sshd_config
 echo -e '#/bin/bash\n\nssh -X -C "$@"' | tee "/usr/bin/ssh-x"
 chmod +x "/usr/bin/ssh-x"
-
-#wget https://github.com/elppans/conf/raw/master/skel_co7.v2.tgz -P /tmp
-#tar -zxvf /tmp/skel_co7.v2.tgz -C /etc
 
 ls -l /etc/systemd/system/default.target
 systemctl set-default graphical.target
@@ -149,3 +131,13 @@ chmod a+x ~/.Xclients
 #              total        used        free      shared  buff/cache   available
 #Mem:           1982         225        1358          12         398        1565
 #Swap:          1906           0        1906
+
+# Mate (Via SSH):
+#              total        used        free      shared  buff/cache   available
+#Mem:            990         197         475          26         317         633
+#Swap:          2048           0        2048
+
+# Mate (Via SSH, após logar):
+#              total        used        free      shared  buff/cache   available
+#Mem:            990         265         378          24         346         567
+#Swap:          2048           0        2048
