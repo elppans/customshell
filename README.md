@@ -27,6 +27,8 @@ purge-kernels-antigos = Remove kernels não carregados e antigos do sistema: Deb
 dpkg-pac-desc = Mostra descrição "resumida" de um pacote .deb
 
 dpkg-find-desc = Procura todos os pacotes .deb local, mostra a descrição "resumida" e grava em um arquivo Packages.md
+
+anydesk-cmd = Todos os parâmetros para versão CLI do anydesk encontrados (até o momento) em um simples Shell
 ___
 
 Diversos:
