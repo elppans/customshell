@@ -1,0 +1,144 @@
+#!/bin/bash
+
+## Fontes:
+# https://support.anydesk.com/Command_Line_Interface
+# https://stackoverflow.com/questions/58543820/anydesk-not-able-to-unlock-security-settings-for-unattended-access
+# https://askubuntu.com/questions/1118266/cannot-access-security-panel-from-anydesk
+# https://askubuntu.com/questions/1209964/anydesk-on-ubuntu-does-not-save-unattended-access-security-setting
+# https://www.sbarjatiya.com/notes_wiki/index.php/CentOS_7.x_anydesk
+# https://download.anydesk.com/linux/
+
+## Instale o anydesk-4.0.0-1.el7.x86_64.rpm se for desejado um acesso autônomo.
+## O anydesk-4.0.1-1.el7.x86_64.rpm ou versão maior é realmente um bug onde a senha autônoma não está sendo salva.
+
+### Se a adição da senha via Script não der certo, remova o anydesk e instale este:
+#yum remove anydesk
+#yum install https://download.anydesk.com/linux/os-specific/rhel7/anydesk-4.0.0-1.el7.x86_64.rpm
+
+case "$1" in
+	--service)
+	anydesk --service
+	;;
+	--stop-service)
+	anydesk --stop-service
+	;;
+	--restart-service)
+	anydesk --restart-service
+	;;	
+	--silent)
+	anydesk --silent
+	;;
+	--remove)
+	anydesk --remove
+	;;
+	--get-alias)
+	echo -e "
+	
+	$(anydesk --get-alias)
+"
+	;;
+	--get-id)
+	echo -e "
+	
+	$(anydesk --get-id)
+"
+	;;
+	--get-status)
+	echo -e "
+	$(anydesk --get-status)
+"
+	;;
+	--plain)
+	anydesk --plain
+	;;
+	--disclaimer)
+	anydesk --disclaimer "$@"
+	;;
+	--show-advert)
+	anydesk --show-advert
+	;;
+	--admin-settings)
+	anydesk --admin-settings "$@"
+	;;
+	--set-password)
+	echo -e "Digite a senha desejada para o Anydesk e aperte ENTER..."
+	#read -s -p "Enter Password: "  pswd
+	#echo $pswd
+	unset password
+	prompt="password:"
+	while IFS= read -p "$prompt" -r -s -n 1 char
+	do
+	    if [[ $char == $'\0' ]]
+	    then
+	         break
+	    fi
+	    prompt='*'
+	    password+="$char"
+	done
+	echo -e "\n\n"
+	stty -echo
+	echo "$password" | anydesk --set-password
+	stty echo
+
+	;;
+	--register-license)
+	echo -e "Digite a chave de licença do Anydesk e aperte ENTER..."
+	read -p "License Key: "  lkey
+	#echo $lkey
+	echo -e	"\n"
+	echo "$lkey" | anydesk --register-license
+	;;
+	--unlock-security-settings)
+	anydesk --unlock-security-settings
+	;;
+	--anydesk-global-settings)
+	anydesk-global-settings
+	;;
+	--anydesk-brute-restart)
+	kill $(ps -aux | grep anydesk | awk '{print $2}') | anydesk --service
+	;;
+	--security-interactive-access)
+	ADSC='/etc/anydesk/system.conf'
+	ADSIA='ad.security.interactive_access'
+
+	if [ -f "$ADSC" ]; then
+
+	if grep "$ADSIA" "$ADSC" &>> /dev/null ; then
+	        sed -i "/"$ADSIA"/s/0/1/g" "$ADSC"
+	   else
+	echo -e ""$ADSIA"=1" | tee -a "$ADSC" &> /dev/null
+	fi
+	  else
+	      	echo -e "Arquivo de configuração não encontrado..."
+	        exit 0
+
+	fi
+	;;
+	-h|--help)
+	echo -e '
+
+--service			Inicie o serviço AnyDesk, se ainda não estiver em execução (para Linux).
+--stop-service			Pare o serviço AnyDesk.
+--restart-service		Reinicie o serviço AnyDesk.
+--silent			O AnyDesk não exibirá caixas de mensagem quando este parâmetro for especificado. Recomendado para scripts.
+--remove			Desinstale o AnyDesk sem aviso prévio (desinstalação silenciosa).
+--get-alias			Mostra o alias (apelido) do anydesk, se tiver
+--get-id			Mostra o ID do anydesk
+--get-status			Mostra o Status do Anydesk
+--plain				Abra uma janela simples do AnyDesk. Pode ser usado com o comando de conexão AnyDesk.
+--disclaimer			Mostre seu aviso de isenção de responsabilidade personalizado
+--show-advert			Mostre a página de anúncio do AnyDesk
+--admin-settings:		{capture} (GUI)/{security}/{connection}/{recording}
+--set-password			Defina senha do Anydesk
+--register-license		Registrar uma licença na instalação atual do AnyDesk. O serviço deve estar em execução
+--unlock-security-settings	Desbloquear as configurações de segurança (GUI)
+--anydesk-global-settings	Configurações usando a interface (Algumas Distros não possuem este comando)
+--anydesk-brute-restart		Mata todos os processos do Anydesk e inicia o serviço novamente (Recomendável usar systemctl)
+--security-interactive-access	Ativar acesso por usuário não privilegiado
+'
+	;;
+	*)
+	echo -e 'Parâmetro errado... use o "--help" para mais informações!'
+	exit 0
+	;;
+esac
