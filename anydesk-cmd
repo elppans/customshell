@@ -15,6 +15,11 @@
 #yum remove anydesk
 #yum install https://download.anydesk.com/linux/os-specific/rhel7/anydesk-4.0.0-1.el7.x86_64.rpm
 
+###	VERSÃO MÍNIMA PARA USO DO ANYDESK PARA ESTE SCRIPT NO CENTOS 7:
+#		anydesk-5.5.4-1.el7.x86_64
+#	LINK: https://download.anydesk.com/linux/anydesk-5.5.4-1.el7.x86_64.rpm
+#	DROPBOX: https://www.dropbox.com/s/q7gxcqoxncxzpax/anydesk-5.5.4-1.el7.x86_64.rpm
+
 case "$1" in
 	--service)
 	anydesk --service
