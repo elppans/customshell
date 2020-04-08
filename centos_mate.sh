@@ -1,8 +1,5 @@
 #!/bin/bash
 
-##	Referencia ao Mate Minimal:
-# https://dokuwiki.tachtler.net/doku.php?id=tachtler:centos_7_-_minimal_desktop_installation#minimal_desktop_mate
-
 #	Opções yum
 
 # Salvar configuração no yum:
@@ -25,6 +22,9 @@
 # https://novnc.com/info.html > https://github.com/novnc/noVNC/blob/master/README.md#quick-start
 # https://github.com/novnc/noVNC
 # https://unix.stackexchange.com/questions/262219/how-to-use-web-browser-as-vnc-client
+
+#	Mate Minimal:
+# https://dokuwiki.tachtler.net/doku.php?id=tachtler:centos_7_-_minimal_desktop_installation#minimal_desktop_mate
 
 
 ###	Instalação MATE CentOS 7
