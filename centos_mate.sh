@@ -63,7 +63,7 @@ yum updateinfo
 yum -y update
 #yum makecache fast
 yum --nogpgcheck install @"X Window System" @Fonts \
-lightdm mate-desktop mate-terminal mate-screenshot caja gedit firefox \
+lightdm mate-desktop mate-settings-daemon mate-terminal mate-screenshot caja gedit firefox \
 ntsysv gvfs-fuse gvfs-archive gvfs-smb ntfs-3g \
 xterm zathura htop nano wget mlocate zip unzip net-tools
 
@@ -120,7 +120,9 @@ chmod a+x ~/.Xclients
 
 ###########################################################################################
 
-#	Antes:
+##  Testes de consumo de memória, em pós inicialização
+
+#	Apenas o X:
 #free -m
 #              total        used        free      shared  buff/cache   available
 #Mem:           1982         120        1516           9         345        1679
