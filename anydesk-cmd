@@ -16,9 +16,14 @@
 #yum install https://download.anydesk.com/linux/os-specific/rhel7/anydesk-4.0.0-1.el7.x86_64.rpm
 
 ###	VERSÃO MÍNIMA PARA USO DO ANYDESK PARA ESTE SCRIPT NO CENTOS 7:
-#		anydesk-5.5.4-1.el7.x86_64
+#		5.5.4-1.el7
 #	LINK: https://download.anydesk.com/linux/anydesk-5.5.4-1.el7.x86_64.rpm
 #	DROPBOX: https://www.dropbox.com/s/q7gxcqoxncxzpax/anydesk-5.5.4-1.el7.x86_64.rpm
+
+###	VERSÃO RECOMENDADA PARA UBUNTU (LTS 18.04+) PARA USO DO SCRIPT:
+#		5.5.1-1
+#	LINK 32 BITS: https://download.anydesk.com/linux/deb/anydesk_5.5.1-1_i386.deb
+#	LINK 64 BITS: https://download.anydesk.com/linux/deb/anydesk_5.5.1-1_amd64.deb
 
 case "$1" in
 	--service)
