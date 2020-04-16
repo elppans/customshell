@@ -1,0 +1,6 @@
+#!/bin/bash
+
+ps ax | grep -i vnc | awk '{print $1}'
+cd /opt/intonce/third/kanaka-noVNC ; ./utils/launch.sh --vnc localhost:5900 2>&1 1>& /var/log/noVNC.log &
+iptables -I INPUT -p tcp --dport 6080 -j ACCEPT > /dev/null
+x11vnc -forever -env FD_XDM=1 -display :0 -auth /var/run/lightdm/root/:0 -listen localhost -cursor arrow -shared -rfbport 5900 -noxdamage 2>&1 1>& /var/log/x11vnc.log &
