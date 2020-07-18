@@ -85,3 +85,5 @@ desligar.sh = [ Laboratório ] - Comando em GUI (Zenity) indicando em barra de c
 remaster_Lu12RC26_kernel420 = [ Laboratório ] -  Atualização do Kernel e remasterização 
 
 udev_restart = restarta serviços e regras do PDV
+
+update_zpath = atualiza PDV de acordo com arquivos pre configurados no ftp
