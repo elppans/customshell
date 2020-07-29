@@ -59,6 +59,8 @@ if-elif.sh = [ TESTE ] - Teste, if > elif > else
 
 suteste.sh = [ TESTE ] - Testa se o usuário a executar o Script é o root
 
+teste_ip.sh = Simples teste de varios IPs indicados no arquivo "teste_ip.txt", só pra facilitar
+
 teste_help-naonulo.sh = [ TESTE ] - testa se foi pedido o HELP ou não (-h|--help)
 
 teste_read.sh = [ TESTE ] - Testa digito de palavras ou padrão
