@@ -1,5 +1,9 @@
 #!/bin/bash
 
+## Copiar comando para /usr/bin e dar perissão de execução
+## Adicionar em /etc/crontab:
+# */1   *  *  *  *  root /usr/bin/pathcomum_serv # Executar pathcomum_serv a cada 1 MIN.
+
 username=zanthus
 password=zanthus
 IP='192.168.10.254'
