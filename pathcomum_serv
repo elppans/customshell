@@ -1,0 +1,14 @@
+#!/bin/bash
+
+username=zanthus
+password=zanthus
+IP='192.168.10.254'
+COMP='path_comum'
+DIR='/mnt'
+
+
+                ! mount | grep "$IP" && \
+        {
+mkdir -p "$DIR"
+mount -t cifs -o username="$username",password="$password",rw //"$IP"/"$COMP" "$
+}
