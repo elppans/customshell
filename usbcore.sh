@@ -17,7 +17,7 @@ echo "on" | tee /sys/bus/usb/devices/usb*/power/control >> /dev/null
 
 echo "options usbcore autosuspend=-1" | sudo tee /etc/modprobe.d/disable-usb-autosuspend.conf > /dev/null
 
-sed -i "/GRUB_CMDLINE_LINUX_DEFAULT/s/quiet/quiet usbcore.autosuspend=-1/g" /etc/default/grub
+sed -i "/GRUB_CMDLINE_LINUX_DEFAULT/s/quiet/quiet net.ifnames=0 biosdevname=0 usbcore.autosuspend=-1/g" /etc/default/grub
 update-grub
 
 # Fontes:
