@@ -1,0 +1,35 @@
+#!/bin/bash
+
+# Contagem regressiva oneliner no terminal.
+# Objetivos:
+
+# 1.Um forro.
+# 2.Contagem regressiva.
+# 3.Fácil de lembrar e digitar no console (sem funções e lógica pesada, somente bash).
+# 4.Não requer software adicional para instalar (pode ser usado em qualquer servidor que eu vá via ssh, mesmo que não possua root).
+
+# Como funciona:
+
+# 1.seq = Imprime números de 60 a 1.
+
+# 2.echo -ne "\r$i " = Retorna o sinal de intercalação para o início da sequência e imprime o "$i" valor atual .
+# Espaço depois que é necessário substituir o valor anterior, se for maior por caracteres do que o atual $i(10 -> 9).
+
+# for i in `seq "$1" -1 1` ; do echo -ne "\r$i " ; sleep 1 ; done
+
+# Exemplo de como pode ser adicionado o tempo em alguma fraze de um Script:
+# for i in `seq 3 -1 1` ; do echo -ne " Aguarde $i segundos\r" ; sleep 1 ; done
+
+# Por: cronfy
+# Fonte:
+# https://superuser.com/questions/611538/is-there-a-way-to-display-a-countdown-or-stopwatch-timer-in-a-terminal/1445150#1445150
+
+
+# COMANDO:
+
+if [[ $1 = ?(+|-)+([0-9]) ]] ; then 
+	for i in `seq "$1" -1 1` ; do echo -ne "\r$i " ; sleep 1 ; done
+else
+echo "Deve digitar um valor em Segundos!"
+exit 0
+fi
