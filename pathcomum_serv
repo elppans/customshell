@@ -7,12 +7,56 @@
 username=zanthus
 password=zanthus
 IP='192.168.10.254'
-COMP='path_comum'
-DIR='/mnt'
+COMPARTILHAMENTO='Public'
+PASTA='/mnt/Public254'
+
 
 
                 ! mount | grep "$IP" && \
         {
-mkdir -p "$DIR"
-mount -t cifs -o username="$username",password="$password",rw //"$IP"/"$COMP" "$
+mkdir -p "$PASTA"
+mount -t cifs -o username="$username",password="$password",rw //"$IP"/"$COMPARTILHAMENTO" "$PASTA"
 }
+
+# MOUNT IP
+if  mount | grep "$IP" ; then
+
+# MOUNT IP COMPARTILHAMENTO PASTA
+if  mount | grep "$IP"| grep "$PASTA" >> /dev/null ; then
+        echo "Compartilhamento "$COMPARTILHAMENTO" ja foi montado em "$PASTA""
+  else
+	#umount //"$IP"/"$COMPARTILHAMENTO" >> /dev/null
+	echo "Montando comaprtilhamento "$COMPARTILHAMENTO"..."
+	mkdir -p "$PASTA"
+	mount -t cifs -o username="$username",password="$password",rw //"$IP"/"$COMPARTILHAMENTO" "$PASTA"
+if  mount | grep "$IP"| grep "$PASTA" >> /dev/null ; then
+        echo "Compartilhamento "$COMPARTILHAMENTO" foi montado no diretorio "$PASTA""
+ else
+        #echo  -e ""$PARTUSB" "$PASTA""
+        BKP=`date +%Y%m%d_%H%M%S`
+        echo "Não foi possível montar o compartilhamento "$COMPARTILHAMENTO"! - "$BKP"" | tee /tmp/disk_usb.log
+fi
+fi
+# MOUNT IP COMPARTILHAMENTO PASTA
+  else
+	mkdir -p "$PASTA"
+	mount -t cifs -o username="$username",password="$password",rw //"$IP"/"$COMPARTILHAMENTO" "$PASTA"
+# MOUNT IP COMPARTILHAMENTO PASTA
+if  mount | grep "$IP"| grep "$PASTA" >> /dev/null ; then
+        echo "Compartilhamento "$COMPARTILHAMENTO" ja foi montado em "$PASTA""
+  else
+	#umount //"$IP"/"$COMPARTILHAMENTO" >> /dev/null
+	echo "Montando comaprtilhamento "$COMPARTILHAMENTO"..."
+	mkdir -p "$PASTA"
+	mount -t cifs -o username="$username",password="$password",rw //"$IP"/"$COMPARTILHAMENTO" "$PASTA"
+if  mount | grep "$IP"| grep "$PASTA" >> /dev/null ; then
+        echo "Compartilhamento "$COMPARTILHAMENTO" foi montado no diretorio "$PASTA""
+ else
+        #echo  -e ""$PARTUSB" "$PASTA""
+        BKP=`date +%Y%m%d_%H%M%S`
+        echo "Não foi possível montar o compartilhamento "$COMPARTILHAMENTO"! - "$BKP"" | tee /tmp/disk_usb.log
+fi
+fi
+# MOUNT IP COMPARTILHAMENTO PASTA
+fi
+# MOUNT IP
