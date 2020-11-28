@@ -2,6 +2,10 @@
 
 ### Ps.: Para o gerenciador de Login, edite e troque USUARIO pelo nome de seu usuário do sistema
 
+# Atualização 28.11.2020:
+# Troca do link do thunar-shares-plugin para uma versão compilada por "Rina Rosalette (tangerine)":
+# https://build.opensuse.org/package/show/home:tangerine:deb10-xfce-4.14/thunar-shares-plugin
+
 # Atualização 19.04.2019:
 # Removido link do Mint do xfce4-whiskermenu-plugin e adicionado pacote oficial do Debian. A partir do Debian Teste (21.01.2019)
 
@@ -90,11 +94,9 @@ zip lhasa arj p7zip p7zip-full p7zip-rar unrar rar unace
 #slim
 
 # Pacote thunar-shares-plugin para compartilhamento fácil de pastas
-wget -c https://github.com/elppans/thunar-shares-plugin/raw/master/thunar-shares-plugin-0.2.0.git-5_amd64.deb -P /tmp/thunar-shares-plugin-0.2.0.git-5_amd64.deb
-dpkg -i /tmp/thunar-shares-plugin-0.2.0.git-5_amd64.deb
-rm -rf /tmp/thunar-shares-plugin-0.2.0.git-5_amd64.deb
-
-
+wget -c https://download.opensuse.org/repositories/home:/tangerine:/deb10-xfce-4.14/Debian_10/"$archName"/thunar-shares-plugin_0.3.1-7_"$archName".deb -P /tmp/
+dpkg -i /tmp/thunar-shares-plugin-*_"$archName".deb
+rm -rf /tmp/thunar-shares-plugin-*_"$archName".deb
 
 read -t 5
 
