@@ -6,6 +6,29 @@
 # Troca do link do thunar-shares-plugin para uma versão compilada por "Rina Rosalette (tangerine)":
 # https://build.opensuse.org/package/show/home:tangerine:deb10-xfce-4.14/thunar-shares-plugin
 
+# Referências para a atualização:
+# https://linuxdicasesuporte.blogspot.com/2015/05/aprenda-usar-o-debian-testing-hibrido.html
+# https://xpressubuntu.wordpress.com/2014/02/22/how-to-install-a-minimal-ubuntu-desktop/
+# https://askubuntu.com/questions/179060/how-to-not-install-recommended-and-suggested-packages
+# https://www.vivaolinux.com.br/dica/Instalando-o-XFCE-minimo
+# https://www.devuan.org/os/documentation/dev1fanboy/en/minimal-xfce-install.html
+# https://martincooper9.wordpress.com/2011/10/12/minimal-xfce-debian-install/
+# https://linuxhint.com/install_xfce_debian_10/
+# https://wiki.debian.org/pt_BR/Xfce
+# https://wiki.debian.org/Xfce
+# https://wiki.debian.org/PDF
+
+# thunar-volman gvfs policykit-1 - support for auto-mounting
+# task-xfce-desktop - Resolver problemas de atalhos e ícones, se necessário (Usar "--no-install-recommends" para instalar)
+# gdebi - Instalador de pacotes .deb locais
+# synaptic - Instalador de pacotes Debian remoto
+# bash-completion - Tabulações automaticas
+
+## Browsers
+# brave - Mesmo motor do Chrome/Chromium, otimizado, abre sites mais rapidamente e consome menos memória RAM e focado em privacidade
+# vivaldi - Mesmo que acima, leve e personalizável
+# palemoon - Com base no Firefox, otimizado com algumas ferramentas próprias e para processadores modernos
+
 # Atualização 19.04.2019:
 # Removido link do Mint do xfce4-whiskermenu-plugin e adicionado pacote oficial do Debian. A partir do Debian Teste (21.01.2019)
 
@@ -24,11 +47,11 @@
 # slim - desktop-independent graphical login manager for X11 (REMOVIDO)
 # wicd - wired and wireless network manager
 # htop - interactive processes viewer
-# sakura - simple but powerful libvte-based terminal emulator
+# sakura - simple but powerful libvte-based terminal emulator > SUBSTITUIDO POR lxterminal
 # scrot - command line screen capture utility
-# medit - Useful programming and around-programming text editor
-# mirage - fast and simple GTK+ image viewer
-# zathura - PDF viewer with a minimalistic interface
+# medit - Useful programming and around-programming text editor > SUBSTITUIDO POR mousepad
+# mirage - fast and simple GTK+ image viewer > SUBSTITUIDO PELO PACOTE viewnior
+# zathura - PDF viewer with a minimalistic interface > SUBSTITUIDO PELO xpdf
 # vlc - multimedia player and streamer
 # alsa-utils - Utilities for configuring and using ALSA
 # openssh-server - secure shell (SSH) server, for secure access from remote machines
@@ -37,7 +60,7 @@
 # libnss-winbind - samba nameservice integration plugins
 # cifs-utils - Common Internet File System utilities
 # fusesmb - filesystem client based on the SMB file transfer protocol
-# gvfs-backends - userspace virtual filesystem - backends
+# gvfs-backends - userspace virtual filesystem - backends. (gvfs ajuda a reconhecer o celular no computador)
 # ntpdate - client for setting system time from NTP servers
 # deborphan - program that can find unused packages, e.g. libraries
 # rcconf - Debian Runlevel configuration tool
@@ -47,23 +70,24 @@
 ## file-roller = gestor de arquivamentos para o GNOME (opcional - instalar manual)
 # Mais completo que o xarchiver, porém puxa mais 39,8 MB de pacotes e ocupa mais 144 MB no arquivo de sistemas
 
-## Suporte a pacotes para compressão/descompressão
-# zip lhasa arj p7zip p7zip-full p7zip-rar unrar rar unace
-# unar (opcional, ocupa 4 MB)
-# rpm (opcional, ocupa 1 MB)
-
 ##	Pacotes não instalados, porém, opcionais
-# terminology - Enlightenment efl based terminal emulator
 # geany - fast and lightweight IDE, editor
 
 # A instalação dos pacotes com XFCE, inclui automaticamente os pacotes "lightdm, lightdm-gtk-greeter e light-locker"
 
 #IDU0
-if [ "$(id -u)" != "0" ]; then
-echo "Deve executar o comando como super usuario!"
+if [ "$(id -u)" == "0" ]; then
+echo "Deve executar o comando como usuario normal!"
 exit 0
 fi
 #IDU0
+
+# sudo 
+if ! id | grep "sudo" >> /dev/null ; then
+ echo "$USER deve estar configurado com sudo ativado!"
+ 	exit 1
+fi
+# sudo 
 
 #Arquitetura da distro (return archName) -
 checkArchitecture () {
@@ -85,44 +109,153 @@ checkArchitecture () {
 }
 checkArchitecture
 
-echo "$archName"
+#echo "$archName"
+echo -e "\n\n"
+for i in `seq 10 -1 1` ; do echo -ne " Atualizando lista de pacotes: $i SEGUNDOS para prosseguir\r" ; sleep 1 ; done
+sudo apt update -qq
+#Xorg minimo
+sudo apt --no-install-recommends install -y xserver-xorg-core
+#sudo apt --no-install-recommends install -y xserver-xorg-video-vesa
+#sudo apt --no-install-recommends install -y xserver-xorg-video-intel
+#sudo apt --no-install-recommends install -y xserver-xorg-video-nouveau
+#sudo apt --no-install-recommends install -y xserver-xorg-video-nvidia
+#sudo apt --no-install-recommends install -y xserver-xorg-video-ati
+sudo apt --no-install-recommends install -y xserver-xorg-video-fbdev
+sudo apt --no-install-recommends install -y xserver-xorg
 
-apt-get update
-apt-get -y install xfce4 xfce4-power-manager xfce4-whiskermenu-plugin xfce4-mount-plugin gtk2-engines-xfce gtk3-engines-xfce xfce4-settings thunar-archive-plugin thunar-volman wicd htop sakura scrot medit mirage zathura vlc alsa-utils \
-openssh-server samba winbind libnss-winbind cifs-utils fusesmb gvfs-backends ntpdate deborphan rcconf screenfetch \
-zip lhasa arj p7zip p7zip-full p7zip-rar unrar rar unace 
-#slim
+echo -e "\n\n"
+for i in `seq 10 -1 1` ; do echo -ne " Instalando pacotes para interface gráfica XFCE: $i SEGUNDOS para prosseguir\r" ; sleep 1 ; done
+#sudo apt -y install xfce4 xfce4-power-manager xfce4-whiskermenu-plugin xfce4-mount-plugin xfce4-settings thunar-archive-plugin thunar-volman
+# gtk2-engines-xfce gtk3-engines-xfce
+sudo apt --no-install-recommends -y install xfce4 thunar-volman xfce4-power-manager
+sudo apt --no-install-recommends install -y xfce4-whiskermenu-plugin xfce4-mount-plugin xfce4-settings thunar-archive-plugin
+#apt --no-install-recommends install task-xfce-desktop
+#sudo apt --no-install-recommends install -y gvfs policykit-1
+sudo apt --no-install-recommends install -y lightdm
 
-# Pacote thunar-shares-plugin para compartilhamento fácil de pastas
-wget -c https://download.opensuse.org/repositories/home:/tangerine:/deb10-xfce-4.14/Debian_10/"$archName"/thunar-shares-plugin_0.3.1-7_"$archName".deb -P /tmp/
-dpkg -i /tmp/thunar-shares-plugin-*_"$archName".deb
-rm -rf /tmp/thunar-shares-plugin-*_"$archName".deb
+echo -e "\n\n"
+for i in `seq 10 -1 1` ; do echo -ne " Instalando aplicativos CLI: $i SEGUNDOS para prosseguir\r" ; sleep 1 ; done
+sudo apt -y install ntpdate deborphan rcconf screenfetch htop scrot
 
+echo -e "\n\n"
+for i in `seq 10 -1 1` ; do echo -ne " Instalando aplicativos para redes: $i SEGUNDOS para prosseguir\r" ; sleep 1 ; done
+# Instalação de pacotes para rede e internet
+sudo apt --no-install-recommends install -y wicd
+#sudo apt --no-install-recommends install -y network-manager-gnome
+#sed -i 's/false/true/g' /etc/NetworkManager/NetworkManager.conf
+
+echo -e "\n\n"
+for i in `seq 10 -1 1` ; do echo -ne " Instalando aplciativos GUI: $i SEGUNDOS para prosseguir\r" ; sleep 1 ; done
+sudo apt -y install lxterminal viewnior mousepad xpdf xarchiver
+
+echo -e "\n\n"
+for i in `seq 10 -1 1` ; do echo -ne " Instalando pacotes para Media: $i SEGUNDOS para prosseguir\r" ; sleep 1 ; done
+# Instalação de pacotes para media
+#### Codecs e Audio/Video ###
+#apt install -y ffmpeg gstreamer1.0-libav
+#apt install -y gstreamer1.0-plugins-good
+#apt install -y gstreamer1.0-plugins-bad
+#apt install -y gstreamer1.0-plugins-ugly
+#apt install -y gstreamer1.0-nice
+sudo apt install -y vlc
+#apt --no-install-recommends install -y vlc qt4-qtconfig
+#apt --no-install-recommends -y install pulseaudio
+#apt --no-install-recommends install -y xfce4-pulseaudio-plugin
+sudo apt install -y alsa-utils
+
+echo -e "\n\n"
+for i in `seq 10 -1 1` ; do echo -ne " Instalando pacotes para compressão: $i SEGUNDOS para prosseguir\r" ; sleep 1 ; done
+sudo apt -y install zip lhasa arj p7zip p7zip-full p7zip-rar unrar rar unace 
+# unar (opcional, ocupa 4 MB)
+# rpm (opcional, ocupa 1 MB)
+
+echo -e "\n\n"
+for i in `seq 10 -1 1` ; do echo -ne " Iniciando configuração para Navegador: $i SEGUNDOS para prosseguir\r" ; sleep 1 ; done
 read -t 5
-
-## Navegadores:
+# Instalação de Navegador
 navegador_install(){
 clear
-	echo "Qual dos 2 navegadores deseja usar?"
-	echo "1) Firefox"
-	echo "2) Google Chrome"
+	echo "Qual dos navegadores deseja usar?"
+	echo "1) Firefox Repositório Deb"
+	echo "2) Firefox mozilla.org"
+	echo "3) Google Chrome"
+	echo "4) Brave Browser"
+	echo "5) Vivaldi"
+	echo "6) Palemoon"
 	echo "0) Nenhum"
 	read NAVEGADOR
   case $NAVEGADOR in
 	1)
-	# Firefox (Security stable/updates)
-	apt-get -y install firefox-esr firefox-esr-l10n-pt-br
+	FIREFOX=$(apt search firefox 2> /dev/null | grep -i $(echo "$LANG" | sed "s/_/-/" | cut -d"." -f"1") | awk '{printf $1}')
+	sudo apt -y install "$FIREFOX"
+
 	;;
 	2)
-	# Chrome no Debian (Opcional):
+if [ "$archName" == "amd64" ]; then
+	arquitetura=linux64
+else
+	if [ "$archName" == "i386" ]; then
+	arquiterura=linux
+	else
+	echo "Arquitetura não suportada."
+	fi
+fi
+mkdir -p /opt
+cd /opt
+wget -c -O firefox-installer https://download.mozilla.org/?product=firefox-latest&os="$arquitetura"&lang=pt-BR
+echo "Instalando o firefox, por favor aguarde..."
+tar xjf firefox-installer -C /opt/ 2>/dev/null
+chown -R $USER:$USER /opt/firefox
+ln -sf /opt/firefox/firefox /usr/local/bin/firefox
+rm -rf firefox-installer
+
+menu_file=/usr/share/applications/
+icon_path=/opt/firefox/browser/chrome/icons/default/default48.png
+icon_install=/usr/share/icons/hicolor/48x48/apps/
+ln -sf $icon_path $icon_install
+cat << EOF > $menu_file/firefox.desktop
+[Desktop Entry]
+Type=Application
+Encoding=UTF-8
+Name=Firefox
+Comment=Navegador de internet
+Exec=/opt/firefox/firefox
+Icon=/usr/share/icons/hicolor/48x48/apps/default48.png
+Categories=Network;WebBrowser;
+Terminal=false
+EOF
+	;;
+	3)
 if [ "$archName" = i386 ];then
 	echo "Chrome não possui suporte à arquitetura "$archName"..."
 	echo "Instale manualmente um navegador alternativo de sua escolha!"
 	read -t 5
   else
 	mkdir -p /tmp
-	apt-get clean ; wget -c https://dl.google.com/linux/direct/google-chrome-stable_current_"$archName".deb -P /tmp ; dpkg -i /tmp/google-chrome-stable_current_"$archName".deb ; apt-get -f install ; rm -rfv /tmp/google-chrome-stable_current_"$archName".deb
+	apt clean ; wget -c https://dl.google.com/linux/direct/google-chrome-stable_current_"$archName".deb -P /tmp ; dpkg -i /tmp/google-chrome-stable_current_"$archName".deb ; apt -f install ; rm -rfv /tmp/google-chrome-stable_current_"$archName".deb
 fi
+	;;
+	4)
+sudo apt install -y apt-transport-https curl gnupg
+curl -s https://brave-browser-apt-release.s3.brave.com/brave-core.asc | sudo apt-key --keyring /etc/apt/trusted.gpg.d/brave-browser-release.gpg add -
+echo "deb [arch="$archName"] https://brave-browser-apt-release.s3.brave.com/ stable main" | sudo tee /etc/apt/sources.list.d/brave-browser-release.list
+sudo apt update -qq
+sudo apt install -y brave-browser
+	;;
+	5)
+	mkdir -p /tmp
+wget https://downloads.vivaldi.com/stable/vivaldi-stable_3.4.2066.106-1_"$archName".deb -P /tmp
+cd /tmp
+sudo dpkg -i vivaldi-stable*_"$archName".deb
+sudo apt -f install
+sudo rm -rf vivaldi-stable*_"$archName".deb
+cd -
+	;;
+	6)
+echo 'deb http://download.opensuse.org/repositories/home:/stevenpusser/Debian_10/ /' | sudo tee /etc/apt/sources.list.d/home:stevenpusser.list
+curl -fsSL https://download.opensuse.org/repositories/home:stevenpusser/Debian_10/Release.key | gpg --dearmor | sudo tee /etc/apt/trusted.gpg.d/home_stevenpusser.gpg > /dev/null
+sudo apt update -qq
+sudo apt install -y palemoon
 	;;
 	0)
 	echo "Optou por não instalar nenhum navegador..."
@@ -133,26 +266,51 @@ fi
 }
 navegador_install
 
-#/etc/fuse.conf
-#/etc/slim.conf
-#/etc/nsswitch.conf
-#/etc/samba/smb.conf
-#/etc/crontab
+# limpeza de cache
+limpeza_de_cache(){
+clear
+	echo "Deseja adicionar limpeza de cache a cada 5 Min. no sistema? Sim (S)/Não (N)"
+	read LICA
+  case $LICA in
+	[Ss][Ii][Mm]|[Ss])
+	echo "Setando para fazer limpeza de cache a cada 5 MIN..."
+chmod 777 /etc/crontab
+echo -e 'syscache' >> /etc/crontab
+sed -i '/syscache/s/syscache/*\/5 * * * * root sysctl -w vm.drop_caches=3/g' /etc/crontab
+chmod 644 /etc/crontab
 
-## Setando comando dmidecode para usuario normal:
+## /etc/rc.local (opcional):
+#sed -i "s/exit 0//g" /etc/rc.local
+#echo "sysctl -w vm.drop_caches=3" >> /etc/rc.local
+#echo "ntpdate-debian" >> /etc/rc.local
+#echo "exit 0" >> /etc/rc.local
+	;;
+	[Nn][Ãã][Oo]|[Nn])
+	echo "Não Setar para fazer limpeza de cache a cada 5 MIN..."
+	;;
+	*) limpeza_de_cache ;;
+	esac
+}
+limpeza_de_cache
+# limpeza de cache
 
-chmod +s /usr/sbin/dmidecode 
-ln -s /usr/sbin/dmidecode /usr/bin/
-sysctl -w vm.drop_caches=3
+echo -e "\n\n"
+for i in `seq 10 -1 1` ; do echo -ne " Iniciando configurações para compartilhamentos: $i SEGUNDOS para prosseguir\r" ; sleep 1 ; done
+# compartilhamento de arquivos e pastas - SAMBA
+instalacao_samba(){
+clear
+	echo "Deseja instalar e configurar compartilhamento no sistema - SAMBA? Sim (S)/Não (N)"
+	read ISMB
+  case $ISMB in
+	[Ss][Ii][Mm]|[Ss])
+	echo "A instalar e configurar o compartilhamento de arquivos e pastas..."
+# Instalação de aplicativos de rede e compartilhamento
+sudo apt -y install samba winbind libnss-winbind cifs-utils fusesmb gvfs-backends
 
-## Configuando arquivos da pasta /etc:
-
-# Setando todos os usuários para o uso do fuse (NTFS)
-sed -i '/user_allow_other/s/#//g' /etc/fuse.conf
-
-# Setando seu usuário para seleção padrão ao gerenciador de login (troque USUARIO pelo nome de seu usuario) (opcional)
-#sed -i '/default_user/s/#//g' /etc/slim.conf
-#sed -i "/default_user/s/simone/"$USER"/g" /etc/slim.conf
+# Pacote thunar-shares-plugin para compartilhamento fácil de pastas
+wget -c https://download.opensuse.org/repositories/home:/tangerine:/deb10-xfce-4.14/Debian_10/"$archName"/thunar-shares-plugin_0.3.1-7_"$archName".deb -P /tmp/
+dpkg -i /tmp/thunar-shares-plugin-*_"$archName".deb
+rm -rf /tmp/thunar-shares-plugin-*_"$archName".deb
 
 # Criando BKP e sobrescrevendo configuração do samba
 mv /etc/samba/smb.conf /etc/samba/smb.conf.old
@@ -189,11 +347,6 @@ systemctl start nmbd smbd winbind
 #usershare allow guests = yes
 #force group = sambashare
 
-## Configuração do samba:
-# Caso não exista a pasta "Público" no home:
-#mkdir -p ~/Público
-#chmod -R 777 ~/Público
-
 ## Custom Bash para gerenciamento de usuários no samba:
 # Com estes comandos é mais fácil adicionar/remover usuários ao compartilhento samba via linha de comando
 wget https://github.com/elppans/user-samba/raw/master/user-smb_060616/user-smb -P /usr/bin
@@ -206,13 +359,13 @@ clear
 	echo "Deseja adicionar o usuário padrão ao SAMBA? Sim (S)/Não (N)"
 	read USMB
   case $USMB in
-	Sim|sim|S|s)
+	[Ss][Ii][Mm]|[Ss])
 	/usr/bin/user-smb "$USER"
 	read -t 5
 	echo "Para gerenciar o SAMBA de forma fácil, use o comando user-smb..."
 	echo "Use user-smb com a opção --help ou -h para mais detalhes"
 	;;
-	Não|não|N|n)
+	[Nn][Ãã][Oo]|[Nn])
 	echo "Para gerenciar o SAMBA de forma fácil, use o comando user-smb..."
 	echo "Use a opção --help ou -h para mais detalhes"
 	;;
@@ -220,83 +373,49 @@ clear
 	esac
 }
 user_samba
+	echo -e "\n\nPara gerenciar usuários no SAMBA de forma fácil, use o comando user-smb (--help|-h para mais detalhes)..."
+	echo -e "Para compartilhar pastas, basta usar a opção de compartilhamento com \"BT Direito > Propriedades\"..."
+	read -5
+	;;
+	[Nn][Ãã][Oo]|[Nn])
+	echo "Você optou por não instalar e configurar o compartilhamento de arquivos e pastas..."
+	;;
+	*) instalacao_samba ;;
+	esac
+}
+instalacao_samba
+# compartilhamento de arquivos e pastas - SAMBA
 
-### GADMIN-SAMBA
-# Via terminal, chame o aplicativo com o comando "sudo gadmin-samba" (sem aspas).
-# Na primeira vez em que usar o aplicativo e o mesmo perguntar se quer sobrescreveer as configurações do smb.conf, responda "NÃO";
-# Vá até a aba "Shares", clique em "Shared Directory" e escolha qual pasta quer compartilhar e escolha um nome para o mesmo;
-# Mais abaixo, Escolha "Read Only=no, available=yes, Browseable=yes, Writable=yes, guest ok=yes";
-# Em "Directory mask" deixe como 0777, e em "Force user" adicione o usuário associado ao samba;
-# Clique em "Add Access permissions" e deixe marcado "local computer, users, acces allowed e Write Access."
-# Clique em "ADD" e em "Apply".
-# Restarte o serviço nmbd e smbd ou reinicie o computador
+## Setando comando dmidecode para usuario normal:
+for i in `seq 5 -1 1` ; do echo -ne " Realizando algumas configurações: $i SEGUNDOS para prosseguir\r" ; sleep 1 ; done
+sudo chmod +s /usr/sbin/dmidecode 
+sudo ln -s /usr/sbin/dmidecode /usr/bin/
+sudo sysctl -w vm.drop_caches=3
 
-# Setando limpeza de cache a cada 5 minutos (opcional)
-chmod 777 /etc/crontab
-echo -e 'syscache' >> /etc/crontab
-sed -i '/syscache/s/syscache/*\/5 * * * * root sysctl -w vm.drop_caches=3/g' /etc/crontab
-chmod 644 /etc/crontab
+# Desativando sugestões e recomendados no apt
+echo -e 'APT::Install-Suggests "0";\nAPT::Install-Recommends "0";' | sudo tee -a /etc/apt/apt.conf
 
-## /etc/rc.local (opcional):
-#sed -i "s/exit 0//g" /etc/rc.local
-#echo "sysctl -w vm.drop_caches=3" >> /etc/rc.local
-#echo "ntpdate-debian" >> /etc/rc.local
-#echo "exit 0" >> /etc/rc.local
+## Configuando arquivos da pasta /etc:
+
+# Setando todos os usuários para o uso do fuse (NTFS)
+sudo sed -i '/user_allow_other/s/#//g' /etc/fuse.conf
 
 ## Limpando configurações:
-apt-get clean
-apt-get autoclean
-deborphan --guess-all | xargs apt-get -f -y remove --purge
+echo -e "\n\n"
+for i in `seq 5 -1 1` ; do echo -ne " Fazendo limpeza das configurações e pacotes do sistema: $i SEGUNDOS para prosseguir\r" ; sleep 1 ; done
+	read -t 5
+sudo apt clean
+sudo apt autoclean
+sudo apt -y autoremove
+deborphan --guess-all | xargs sudo apt -f -y remove --purge
 
 clear
-	echo -e "\n\nPara gerenciar usuários no SAMBA de forma fácil, use o comando user-smb (--help|-h para mais detalhes)..."
-	read -t 3
-	echo -e "Para compartilhar pastas, basta usar a opção de compartilhamento com \"BT Direito > Propriedades\"..."
-	read -t 3
-	echo -e "Se quiser usar o Wisker Menú, adicione como ítem para o Painel..."
-	read -t 5
+
+echo -e "\n\n"
+for i in `seq 5 -1 1` ; do echo -ne " Configuração terminada: $i SEGUNDOS para prosseguir\r" ; sleep 1 ; done
+for i in `seq 5 -1 1` ; do echo -ne " Se quiser usar o Wisker Menú, adicione como ítem para o Painel: $i SEGUNDOS para prosseguir\r" ; sleep 1 ; done
+		clear
 	echo "Todas as configurações terminaram, para iniciar no XFCE, reinicie o sistema!"
+	echo -e "\n\n"
 
-# rcconf
 
-##	Configuração do sources.list no Debian stable:
-# Ps.: Todos os repositórios estão descomentados no sources.list original
-
-#deb http://ftp.br.debian.org/debian/ stable main non-free contrib
-#deb-src http://ftp.br.debian.org/debian/ stable main non-free contrib
-
-#deb http://security.debian.org/ stable/updates main contrib non-free
-#deb-src http://security.debian.org/ stable/updates main contrib non-free
-
-## stable-updates, previously known as 'volatile'
-#deb http://ftp.br.debian.org/debian/ stable-updates main contrib non-free
-#deb-src http://ftp.br.debian.org/debian/ stable-updates main contrib non-free
-
-## stable-backports, previously on backports.debian.org
-#deb http://ftp.br.debian.org/debian/ stable-backports main contrib non-free
-#deb-src http://ftp.br.debian.org/debian/ stable-backports main contrib non-free
-
-## smb.conf
-# http://paste.debian.net/368541/
-# http://paste.debian.net/368695 - adduser-smb
-# http://paste.debian.net/368696 - adduser-smb-ssh
-# http://paste.debian.net/368698 - userdel-smb
-
-## adduser-smb v_2
-# http://paste.debian.net/776225/
-# http://paste.debian.net/download/776225
-
-## adduser-smb v_2.1
-# http://paste.debian.net/776257/
-# http://paste.debian.net/download/776257
-
-## adduser-smb v_2.2
-# http://paste.debian.net/776271/
-# http://paste.debian.net/download/776271
-
-## adduser-smb v_2.3
-# http://paste.debian.net/776272/
-# http://paste.debian.net/download/776272
-
-## Remove Old adduser-smb and add user-smb:
-# https://github.com/elppans/user-samba
