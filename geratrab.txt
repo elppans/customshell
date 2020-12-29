@@ -29,7 +29,7 @@ Formato: DDMMAA
 
 2.1) Na pasta path_comum/MV, criar uma pasta correspondente a data especificada.ECF
 2.2) Na pasta pdvJava, com o comando ls -ltr *.ZMV, pegar o arquivo que corresponde com a data e copiar para path_comum/MV/AAAAMMDD.ECF
-2.3) Renomear o arquivo ZMV copiado para "TH01HKCZ.TRA". O arquivo lnx_conv_XX deve estar junto 
+2.3) Renomear o arquivo ZMV copiado para "TH01HKXX.TRA". O arquivo lnx_conv_XX deve estar junto 
 XX = ZMAN Correspondente: CZ, CW, etc...
 2.4) voltando a pasta path_comum/MV, usar o Script geratrab.sh
 
