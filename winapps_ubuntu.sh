@@ -72,7 +72,8 @@ sudo systemctl stop libvirtd
 sudo systemctl start libvirtd
 sudo systemctl status libvirtd
 sudo ln -s /etc/apparmor.d/usr.sbin.libvirtd /etc/apparmor.d/disable/
-ln -sf ~/.config/winapps/winapps/bin/winapps ~/.local/bin/winapps
+#ln -sf ~/.config/winapps/winapps/bin/winapps ~/.local/bin/winapps
+sudo ln -sf ~/.config/winapps/winapps/bin/winapps /usr/local/bin/
 sudo virsh net-autostart default
 sudo virsh net-start default 2>> /dev/null
 sudo virsh net-info default
