@@ -62,6 +62,11 @@ cd ~/.config/winapps
 
 git clone https://github.com/Fmstrat/winapps.git
 cd winapps
+cd ~/.config/winapps/winapps/kvm
+#wget -c https://raw.githubusercontent.com/Fmstrat/winapps/main/kvm/RDPWindows.qcow2
+#wget -c https://raw.githubusercontent.com/Fmstrat/winapps/main/kvm/RDPWindows.xml
+wget -c https://fedorapeople.org/groups/virt/virtio-win/direct-downloads/stable-virtio/virtio-win.iso
+cd -
 
 sudo sed -i "s/#user = \"root\"/user = \""$(id -un)"\"/g" /etc/libvirt/qemu.conf
 sudo sed -i "s/#group = \"root\"/group = \""$(id -gn)"\"/g" /etc/libvirt/qemu.conf
@@ -101,15 +106,10 @@ done
 
 sudo reboot
 
-# virt-manager
-# xfreerdp /d: /u:USER /p:PASSWORD /v:IPADDRESS
-# cd ~/.config/winapps/winapps
-# ./installer.sh --user
+###	Instalar/Editar Máquina Virtual:
 
-#cd ~/.config/winapps
-#./bin/winapps check
-
-###	Editar Máquina Virtual RDPWindows:
+# 0) Siga as instruções deste link desde o começo OU siga as instruções posteriores:
+#	https://github.com/Fmstrat/winapps/blob/main/docs/KVM.md
 
 # 1) Em "Editar > Preferências", habilitar a opção "Enable XML editing"
 
@@ -117,22 +117,46 @@ sudo reboot
 
 # 3) Em "Visão Geral", aba XML, procure a linha:
 
-#	<source file="./RDPWindows.qcow2"/>
+# 	<source file="./RDPWindows.qcow2"/>
 
 # E coloque o caminho completo e depois clique em "Aplicar", exemplo:
 
-#	<source file="/home/USUARIO/.config/winapps/winapps/kvm/RDPWindows.qcow2"/>
+# 	<source file="/home/USUARIO/.config/winapps/winapps/kvm/RDPWindows.qcow2"/>
+	
+# Ps.: USUARIO = Nome da pasta do usuário usado no sistema.
 
 # 4) Em "CPUs", selecione a opção "Copiar configuração da CPU do host"
 
 # 5) Em "SATA CDROM 1" selecione a sua ISO
 
-# 6) Em "SATA CDROM 2" clique no X da caixa "Source path" para desmarcar e ficar como "No media selected"
+# 6) Em "SATA CDROM 2", aba XML, procure a linha:
 
-# 7) Em "VirtIO Disco 1", Opção "Barramento do Disco", troque o VirtIO por SATA.
-#	Após aplicar, o "VirtIO Disco 1" irá mudar para "SATA Disco 1"
+# 	<source file="./virtio-win-0.1.185.iso"/>
 
-# 8) Em "NIC:40:9c:f6", deixe como e1000e
+# E coloque o caminho completo e depois clique em "Aplicar", exemplo:
 
-# 9) Agora basta iniciar a Máquina Virtual e instalar o Windows 10 PRO
+# 	<source file="/home/USUARIO/.config/winapps/winapps/kvm/virtio-win.iso"/>
+	
+# Ps.: Veja se tem o arquivo "virtio-win.iso" na pasta kvm, se não tiver, baixe.
 
+# 7) Siga as instruções deste link: https://github.com/Fmstrat/winapps/blob/main/docs/KVM.md#install-the-virtual-machine
+
+# 8) Após a instalação, não esqueça de renomear o nome do sistema para "RDPWindows", Habilitar a "Área de trabalho remota" e adicionar o registro baixado deste link:
+# 	https://github.com/Fmstrat/winapps/blob/main/install/RDPApps.reg
+
+# 9) Após a instalação e configuração, não é mais necessário usar este comando:
+
+# xfreerdp /d: /u:USER /p:PASSWORD /v:IPADDRESS
+
+# Faça o seguinte comando:
+
+# winapps check
+
+# Depois para instalar/verificar os Apps, faça:
+
+# cd ~/.config/winapps/winapps
+#  ./installer.sh --user
+ 
+# OU use o comando criado pelo Script:
+
+# winapps-run
