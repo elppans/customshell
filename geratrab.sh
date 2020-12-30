@@ -1,5 +1,18 @@
 #!/bin/bash
 
+##      Usando arquivo de log
+
+LOGFILE="$(pwd)/${0##*/}".log
+LOGFILEERROR="$(pwd)/${0##*/}"_error.log
+# Habilita log copiando a saída padrão para o arquivo LOGFILE
+
+exec 1> >(tee -a "$LOGFILE")
+
+# faz o mesmo para a saída de ERROS
+
+exec 2> >(tee -a "$LOGFILEERROR")
+
+##      Usando arquivo de log - FIM
 
 LNXPDV=/Zanthus/Zeus/pdvJava
 path=`pwd`
@@ -12,7 +25,7 @@ NECF=$(pwd |cut -d "." -f "2")
 #echo "COMANDO $0 OK!"
 if [ ! -e /usr/bin/$BINCONV ]; then
         echo -e "Deve conter o comando "$BINCONV" em \"/usr/bin\""
-	echo -e "Copie o arquivo "$BINCONV" do CODFON em questão para a pasta especificada!"
+	echo -e "Copie ou faça um link do arquivo "$BINCONV" do CODFON em questão para a pasta especificada!"
 			exit 0
 fi
 #COMANDO
@@ -172,18 +185,30 @@ esac
 
 ##Conversao
 #$data.$ECF
-if [ -d $data.$ECF ]
-		then
-	cd $data.$ECF
+#echo -e "$path/$data.$ECF"
+if [ -d "$path/$data.$ECF" ]; then
+	cd "$path/$data.$ECF"
+	pwd
 		else
 	echo "Nao existe $BINCONV"
-echo "Nao foi possivel criar TRAB1.SDF para ECF $ECF" >> $path/MV/lnxconv_info >> /dev/null
+echo "Nao foi possivel criar TRAB1.SDF para ECF $ECF" >> $path/lnxconv_info >> /dev/null
 	echo "O sistema deve conter o aplicativo $BINCONV para fazer as conversoes."
 	echo "Saindo do configurador..."
 	read -t 5
 
 fi
 #$data.$ECF
+
+## ZMV > TRA
+if ls -F | grep -Ev '/|@|=|>|\|' | grep .ZMV | cut -d '*' -f '1' | tee ZMV_File.txt ; then
+        cp -av $(cat ZMV_File.txt) TH01HKCZ.TRA
+else
+if ! ls TH01HKCZ.TRA 2>> /dev/null; then
+	echo "Não existe arquivo TRA nesta pasta!"
+	exit 0
+fi
+fi
+## ZMV > TRA
 
 #$BINCONV
 ##if (ls /usr/bin | grep $BINCONV)
@@ -193,7 +218,7 @@ $BINCONV -m
 
 ##if (ls $path/MV | grep $BINCONV)
 ##	then
-##$path/MV/./$BINCONV -m
+##$path/./$BINCONV -m
 ##fi
 ##fi
 #$BINCONV
@@ -206,24 +231,25 @@ if (ls | grep TRAB1.SDF)
 if [ -d "$path"/Vendas_"$data" ]
 		then
 	cp -rfv TRAB1_$ECF.SDF $path/Vendas_$data
+for i in `seq 5 -1 1` ; do echo -ne " Arquivo do ECF $ECF, data $data Ok. Continuando em $i SEGUNDOS\r" ; sleep 1 ; done
 	cd $path
-	pwd
+	#pwd
 			else
 	mkdir -p $path/Vendas_$data
 	cp -rfv TRAB1_$ECF.SDF $path/Vendas_$data
+for i in `seq 5 -1 1` ; do echo -ne " Arquivo do ECF $ECF, data $data Ok. Continuando em $i SEGUNDOS\r" ; sleep 1 ; done
 	cd $path
 	pwd
 fi
 
 			else
-	echo "Nao foi possivel criar TRAB1.SDF para ECF $ECF" >> $path/MV/SDF_info >> /dev/null
+	echo "Nao foi possivel criar TRAB1.SDF para ECF $ECF" >> $path/SDF_info >> /dev/null
 	cd $path
 	pwd
 fi
 
 
 ##Fim Conversao
-
 
 
 
