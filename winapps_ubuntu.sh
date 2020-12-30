@@ -4,6 +4,7 @@
 # https://plus.diolinux.com.br/t/material-de-apoio-winapps-linux-kvm-rdp/27596?u=elppans
 # https://www.youtube.com/watch?v=d562WVyLPVM
 
+# Seguir as instruções para a configuração da máquina virtual que está escrito no final deste Shell Script simples
 
 ## Usuário
 echo -e "Digite o nome de usuário que será usado no RDPWindows e aperte ENTER"
@@ -50,6 +51,7 @@ RDP_PASS="MyWindowsPassword"
 EOF
 
 cat << 'EOF' > ~/.local/bin/winapps-run
+#!/bin/bash
 cd ~/.config/winapps/winapps
 ./installer.sh "$@"
 EOF
@@ -61,12 +63,13 @@ cd ~/.config/winapps
 git clone https://github.com/Fmstrat/winapps.git
 cd winapps
 
-sudo sed -i "s/#user = "root"/user = "$(id -un)"/g" /etc/libvirt/qemu.conf
-sudo sed -i "s/#group = "root"/group = "$(id -gn)"/g" /etc/libvirt/qemu.conf
+sudo sed -i "s/#user = \"root\"/user = \""$(id -un)"\"/g" /etc/libvirt/qemu.conf
+sudo sed -i "s/#group = \"root\"/group = \""$(id -gn)"\"/g" /etc/libvirt/qemu.conf
 sudo usermod -a -G kvm $(id -un)
 sudo usermod -a -G libvirt $(id -un)
 #sudo usermod -a -G libvirt-qemu $(id -un)
 #sudo usermod -a -G libvirt-dnsmasq $(id -un)
+getent group kvm
 getent group libvirt
 sudo systemctl stop libvirtd
 sudo systemctl start libvirtd
@@ -99,10 +102,35 @@ done
 sudo reboot
 
 # virt-manager
-#xfreerdp /d: /u:USER /p:PASSWORD /v:IPADDRESS
+# xfreerdp /d: /u:USER /p:PASSWORD /v:IPADDRESS
 # cd ~/.config/winapps/winapps
-#./installer.sh --user
+# ./installer.sh --user
 
 #cd ~/.config/winapps
 #./bin/winapps check
+
+###	Editar Máquina Virtual RDPWindows:
+
+# 1) Em "Editar > Preferências", habilitar a opção "Enable XML editing"
+
+# 2) Selecione RDPWindows e vá em "Editar > Detalhes da Máquina Virtual"
+
+# 3) Em "Visão Geral", aba XML, procure a linha:
+
+#	<source file="./RDPWindows.qcow2"/>
+
+# E coloque o caminho completo e depois clique em "Aplicar", exemplo:
+
+#	<source file="/home/USUARIO/.config/winapps/winapps/kvm/RDPWindows.qcow2"/>
+
+# 4) Em "CPUs", selecione a opção "Copiar configuração da CPU do host"
+
+# 5) Em "SATA CDROM 1" selecione a sua ISO
+
+# 6) Em "SATA CDROM 2" clique no X da caixa "Source path" para desmarcar e ficar como "No media selected"
+
+# 7) Em "VirtIO Disco 1", Opção "Barramento do Disco", troque o VirtIO por SATA.
+#	Após aplicar, o "VirtIO Disco 1" irá mudar para "SATA Disco 1"
+
+# 8) Agora basta iniciar a Máquina Virtual e instalar o Windows 10 PRO
 
