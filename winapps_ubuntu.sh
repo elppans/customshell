@@ -132,5 +132,7 @@ sudo reboot
 # 7) Em "VirtIO Disco 1", Opção "Barramento do Disco", troque o VirtIO por SATA.
 #	Após aplicar, o "VirtIO Disco 1" irá mudar para "SATA Disco 1"
 
-# 8) Agora basta iniciar a Máquina Virtual e instalar o Windows 10 PRO
+# 8) Em "NIC:40:9c:f6", deixe como e1000e
+
+# 9) Agora basta iniciar a Máquina Virtual e instalar o Windows 10 PRO
 
