@@ -53,5 +53,12 @@ tar -zxf arch_remaster_user_applications.tgz && rm -rf arch_remaster_user_applic
 tar -zxf arch_remaster_user_bin.tgz && rm -rf arch_remaster_user_bin.tgz
 tar -zxf arch_remaster_user_openfortigui.tgz && rm -rf arch_remaster_user_openfortigui.tgz
 
+wget -c https://www.dropbox.com/s/qv87242hco75c89/cisco-anyconnect_4.10.01075.tar.gz
+sudo tar -zxvf cisco-anyconnect_4.10.01075.tar.gz -C / && rm -rf cisco-anyconnect_4.10.01075.tar.gz
+sudo systemctl daemon-reload
+sudo systemctl start vpnagentd.service
+sudo systemctl enable vpnagentd.service
+#systemctl status vpnagentd.service
+
 bash -c ~/.local/bin/NetworkManager-VPN
 
