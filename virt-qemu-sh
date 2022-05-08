@@ -1,0 +1,177 @@
+#!/bin/bash
+
+
+
+BASE="$(basename "$0")"
+
+if [ -e "$HOME/.config/"$BASE"/"$BASE".cfg" ] ; then
+          source "$HOME/.config/"$BASE"/"$BASE".cfg"
+  else
+          mkdir -p "$HOME/.config/"$BASE""
+          echo -e 'DIR="/home/files/VM/virtmanager"' > "$HOME/.config/"$BASE"/"$BASE".cfg"
+          source "$HOME/.config/"$BASE"/"$BASE".cfg"
+fi
+
+GUEST="$2"
+SIZE="$4"
+RESIZE="$3"
+SNAPSHOT="$2"
+
+#ps aux | grep -E 'python|virt-manager' | grep -v grep && \
+pgrep -a virt-manager && \
+  {
+    echo -e "Para criar um Disco Virtual, o Virt-Manager deve estar fechado!"
+    exit 0
+}
+
+if [ "$1" == "--help" ] ; then
+    echo -e "
+ "$BASE"
+Use os argumentos:
+
+--nome                Nome que será usado no arquivo \".qcow2\" para a configuração da Máquina Virtual
+--tamanho             Tamanho do disco que será configurado no arquivo \".qcow2\", em GB
+--comprime            Comprimir o HD Virtual \".qcow2\" (Só funciona se a VM estiver desligada)
+--info                Obter informações do HD virtual
+--info-dev            Obter informações dos devices e blocos dentro do HD virtual
+--info-hd             Verifica o tamanho do HD virtual usando fdisk
+--aumentar-hd         Aumenta o tamanho do HD virtual (O device, não o arquivo)* {k, M, G, T, P, E}
+--diminuir-hd         Diminui o tamanho do HD virtual (O device, não o arquivo)* {k, M, G, T, P, E}
+--lista               Lista de máquinas virtuais configuradas/disponíveis na seção \"QEMU/KVM\" {ID, Nome, Estado}
+--lista-usuario       Lista de máquinas virtuais configuradas/disponíveis na seção \"QEMU/KVM, Seção de usuário\" {ID, Nome, Estado}
+--lista-guest         Lista os arquivos de maquinas virtuais criadas na pasta configurada
+--lista-snapshot      Listar instantâneos/snapshot da Máquina Virtual. NT. Os instantâneos também aparecem na saída do {--info}
+--criar-snapshot      Criar instantâneo. Especificar o arquivo \".qcow2\" SEM especificar a extenção
+--restaurar-snapshot  Restaurar (Aplicar) Instantâneo. Verificar o nome do Snapshot com a opção {--info, --lista-snapshot}
+--excluir-snapshot    Excluir instantâneo. Verificar o nome do Snapshot com a opção {--info, --lista-snapshot}
+--iniciar             Inicia uma máquina Virtual. Usar {--lista*}. Inicia a VM pelo {ID, Nome} que aparece na lista
+--desligar            Desliga a máquina virtual. Usar {--lista*}. Desliga a VM da seção \"QEMU/KVM\" pelo {ID, Nome} que aparece na lista, com o {Estado} \"Executando\"
+--desligar-usuario    Desliga a máquina virtual. Usar {--lista*}. Desliga a VM da seção \"QEMU/KVM, Seção de usuário\" pelo {ID, Nome} que aparece na lista, com o {Estado} \"Executando\"
+--local-guest         Local do "GUEST" da máquina virtual. Usar {--lista*}. Mostra o local onde está configurado a VM do \"QEMU/KVM\" pelo {Nome} que aparece na lista
+--local-guest-usuario Local do "GUEST" da máquina virtual. Usar {--lista*}. Mostra o local onde está configurado a VM do \"QEMU/KVM, Seção de usuário\" pelo {Nome} que aparece na lista
+
+Exemplos:
+
+    "$BASE" --nome GUEST --tamanho 60
+    "$BASE" --comprime GUEST
+    "$BASE" --info GUEST
+    "$BASE" --info-dev GUEST
+    "$BASE" --info-hd GUEST
+    "$BASE" --aumentar-hd GUEST 5G
+    "$BASE" --diminuir-dh GUEST 5G
+    "$BASE" --lista
+    "$BASE" --lista-usuario
+    "$BASE" --lista-snapshot GUEST
+    "$BASE" --criar-snapshot GUEST
+    "$BASE" --restaurar-snapshot GUEST_snapshot.{Nº} GUEST
+    "$BASE" --excluir-snapshot GUEST_snapshot.{Nº} GUEST
+    "$BASE" --iniciar NOME
+    "$BASE" --desligar NOME
+    "$BASE" --desligar-usuario NOME
+    "$BASE" --local-guest GUEST
+    "$BASE" --local-guest-usuario GUEST
+
+* O qemu-img não pode redimensionar uma imagem que possui instantâneos. Deve primeiro remover todos os instantâneos da VM.
+"
+    exit 0
+elif [ "$1" == "--excluir-snapshot" ] ; then
+  cd "$DIR"
+    qemu-img snapshot -d "$SNAPSHOT" "$3".qcow2
+    exit 1
+elif [ "$1" == "--restaurar-snapshot" ] ; then
+  cd "$DIR"
+    qemu-img snapshot -a "$SNAPSHOT" "$3".qcow2
+    exit 1
+elif [ "$1" == "--criar-snapshot" ] ; then
+  cd "$DIR"
+SNAPSOMA=$(qemu-img snapshot -l "$GUEST".qcow2 | grep "$GUEST"| wc -l)
+if [ -z "$SNAPSOMA" ]; then
+        SNAPEXPR='1'
+  else  
+        SNAPEXPR="$(expr 1 + "$SNAPSOMA")"
+
+fi
+echo $SNAPEXPR
+qemu-img snapshot -c "$GUEST"_snapshot."$SNAPEXPR" "$GUEST".qcow2
+    exit 1
+elif [ "$1" == "--local-guest-usuario" ] ; then
+  cd "$DIR"
+    virsh domblklist "$2"
+    exit 1
+elif [ "$1" == "--local-guest" ] ; then
+  cd "$DIR"
+    sudo virsh domblklist "$2"
+    exit 1
+elif [ "$1" == "--desligar-usuario" ] ; then
+    virsh shutdown "$2"
+    exit 1
+elif [ "$1" == "--desligar" ] ; then
+    sudo virsh shutdown "$2"
+    exit 1
+elif [ "$1" == "--iniciar" ] ; then
+    virsh start "$2"
+    exit 1
+elif [ "$1" == "--lista-snapshot" ] ; then
+  cd "$DIR"
+    qemu-img snapshot -l "$GUEST".qcow2
+    exit 1
+elif [ "$1" == "--lista" ] ; then
+    sudo virsh list --all
+    exit 1
+elif [ "$1" == "--lista-usuario" ] ; then
+    virsh list --all
+    exit 1
+elif [ "$1" == "--lista-guest" ] ; then
+    cd "$DIR"
+    ls -1 *.qcow2
+    exit 1
+elif [ "$1" == "--aumentar-hd" ] ; then
+    qemu-img resize -f qcow2 "$DIR"/"$GUEST".qcow2 +"$RESIZE"
+    exit 1
+elif [ "$1" == "--diminuir-hd" ] ; then
+    qemu-img resize --shrink -f qcow2 "$DIR"/"$GUEST".qcow2 -"$RESIZE"
+    exit 1
+elif [ "$1" == "--info-hd" ] ; then
+    fdisk -l "$DIR"/"$GUEST".qcow2
+    exit 1
+elif [ "$1" == "--info-dev" ] ; then
+    qemu-img --long --parts --blkdevs -h -a "$DIR"/"$GUEST".qcow2
+    exit 1
+elif [ "$1" == "--info" ] ; then
+    qemu-img info --backing-chain "$DIR"/"$GUEST".qcow2
+    exit 1
+elif [ "$1" == "--comprime" ] ; then
+    echo -e "Convertendo Disco Virtual!"
+    if [ -z "$2" ]; then
+      echo -e "Parâmetro errado, digite "$BASE" --help para mais informações!"
+        exit 0
+    fi
+      qemu-img convert -c -O qcow2 "$DIR"/"$GUEST".qcow2 "$DIR"/"$GUEST"_comp.qcow2
+      mv -f "$DIR"/"$GUEST"_comp.qcow2 "$DIR"/"$GUEST".qcow2
+        exit 0
+elif [ ! "$1" == "--nome" ] ; then
+    echo -e "Parâmetro errado, digite "$BASE" --help para mais informações!"
+    exit 0
+  elif [ ! "$3" == "--tamanho" ]; then
+    echo -e "Parâmetro errado, digite "$BASE" --help para mais informações!"
+    exit 0
+fi
+
+if [ -f ""$DIR"/"$GUEST".qcow2" ] ; then
+    echo -e "Disco Virtual "$GUEST" já existe."
+      #qemu-img convert -c -O qcow2 "$DIR"/"$GUEST".qcow2 "$DIR"/"$GUEST"_comp.qcow2
+      exit 0
+  else
+qemu-img create -f qcow2 "$DIR"/"$GUEST".qcow2 "$SIZE"G
+#qemu-img create -q -f qcow2 -o preallocation=metadata "$DIR"/"$GUEST".qcow2 "$SIZE"G
+fi
+
+
+chmod 600 "$DIR"/"$GUEST".qcow2
+
+if [ -f ""$DIR"/"$GUEST".qcow2" ] ; then
+    echo -e "Processo finalizado com sucesso!"
+  else
+    echo -e "Erro ao criar Disco Virtual "$GUEST"!"
+    exit 0
+fi
