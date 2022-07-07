@@ -25,6 +25,13 @@ IP="127.0.0.1"
 PORT="5432"
 BANCO="ZeusRetail"
 
+# Via psql, REINDEX no BANCO, completo:
+
+#echo -e "REINDEX BABCO "$BANCO""
+#psql -h "$IP" -p "$PORT" -U postgres -d "$BANCO" -c "REINDEX DATABASE "$BANCO";"
+
+# Via psql, REINDEX em tabela determinada:
+
  echo -e "INICIO $(date)"
 echo "public.tab_controle_nfe"
 psql -h "$IP" -p "$PORT" -U postgres -d "$BANCO" -c "REINDEX TABLE public.tab_controle_nfe;"
