@@ -25,6 +25,8 @@ IP="127.0.0.1"
 PORT="5432"
 BANCO="ZeusRetail"
 
+ echo -e "INICIO $(date)"
+
 # Via psql, REINDEX no BANCO, completo:
 
 #echo -e "REINDEX BABCO "$BANCO""
@@ -32,11 +34,11 @@ BANCO="ZeusRetail"
 
 # Via psql, REINDEX em tabela determinada:
 
- echo -e "INICIO $(date)"
 echo "public.tab_controle_nfe"
 psql -h "$IP" -p "$PORT" -U postgres -d "$BANCO" -c "REINDEX TABLE public.tab_controle_nfe;"
 echo "public.tab_nota_header"
 psql -h "$IP" -p "$PORT" -U postgres -d "$BANCO" -c "REINDEX TABLE public.tab_nota_header;"
 echo "public.tab_nota_item"
 psql -h "$IP" -p "$PORT" -U postgres -d "$BANCO" -c "REINDEX TABLE public.tab_nota_item;"
+
  echo -e "FIM $(date)"
