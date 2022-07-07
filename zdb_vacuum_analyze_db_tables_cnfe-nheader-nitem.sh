@@ -50,6 +50,10 @@ vacuumdb -h "$IP" -p "$PORT" -U postgres -w -d "$BANCO" -v -f -z -t public.tab_c
 vacuumdb -h "$IP" -p "$PORT" -U postgres -w -d "$BANCO" -v -f -z -t public.tab_nota_header
 vacuumdb -h "$IP" -p "$PORT" -U postgres -w -d "$BANCO" -v -f -z -t public.tab_nota_item
 
+# Via vacuumdb, VACUUM e ANALYZE em BANCO determinado, completo:
+
+#vacuumdb -h "$IP" -p "$PORT" -U postgres -w -d "$BANCO" -v -f -z
+
  echo -e "FIM $(date)"
 
 ### Sobre o VACUUMDB:
