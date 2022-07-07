@@ -35,20 +35,20 @@ BANCO="ZeusRetail"
 
 # Via vacuumdb, VACUUM e posteriormente ANALYZE em tabela determinada:
 
-#vacuumdb -h "$IP" -p "$PORT" -U postgres -w -d "$BANCO" -v -f -t public.tab_controle_nfe 1>/var/log/vacuumdb.tab_controle_nfe.1.log 2>/var/log/vacuumdb.tab_controle_nfe.2.log
-#vacuumdb -h "$IP" -p "$PORT" -U postgres -w -d "$BANCO" -v -Z -t public.tab_controle_nfe 1>/var/log/vacuumdb_analyze-only.tab_controle_nfe.1.log 2>/var/log/vacuumdb_analyze-only.tab_controle_nfe.2.log
+#vacuumdb -h "$IP" -p "$PORT" -U postgres -w -d "$BANCO" -v -f -t public.tab_controle_nfe
+#vacuumdb -h "$IP" -p "$PORT" -U postgres -w -d "$BANCO" -v -Z -t public.tab_controle_nfe
 
-#vacuumdb -h "$IP" -p "$PORT" -U postgres -w -d "$BANCO" -v -f -t public.tab_nota_header 1>/var/log/vacuumdb.tab_nota_header.1.log 2>/var/log/vacuumdb.tab_nota_header.2.log
-#vacuumdb -h "$IP" -p "$PORT" -U postgres -w -d "$BANCO" -v -Z -t public.tab_nota_header 1>/var/log/vacuumdb_analyze-only.tab_nota_header.1.log 2>/var/log/vacuumdb_analyze-only.tab_nota_header.2.log
+#vacuumdb -h "$IP" -p "$PORT" -U postgres -w -d "$BANCO" -v -f -t public.tab_nota_header
+#vacuumdb -h "$IP" -p "$PORT" -U postgres -w -d "$BANCO" -v -Z -t public.tab_nota_header
 
-#vacuumdb -h "$IP" -p "$PORT" -U postgres -w -d "$BANCO" -v -f -t public.tab_nota_item 1>/var/log/vacuumdb.tab_nota_item.1.log 2>/var/log/vacuumdb.tab_nota_item.2.log
-#vacuumdb -h "$IP" -p "$PORT" -U postgres -w -d "$BANCO" -v -Z -t public.tab_nota_item 1>/var/log/vacuumdb_analyze-only.tab_nota_item.1.log 2>/var/log/vacuumdb_analyze-only.tab_nota_item.2.log
+#vacuumdb -h "$IP" -p "$PORT" -U postgres -w -d "$BANCO" -v -f -t public.tab_nota_item
+#vacuumdb -h "$IP" -p "$PORT" -U postgres -w -d "$BANCO" -v -Z -t public.tab_nota_item
 
 # Via vacuumdb, VACUUM e ANALYZE em tabela determinada:
 
-vacuumdb -h "$IP" -p "$PORT" -U postgres -w -d "$BANCO" -v -f -z -t public.tab_controle_nfe 1>/var/log/vacuumdb.tab_controle_nfe.1.log 2>/var/log/vacuumdb.tab_controle_nfe.2.log
-vacuumdb -h "$IP" -p "$PORT" -U postgres -w -d "$BANCO" -v -f -z -t public.tab_nota_header 1>/var/log/vacuumdb.tab_nota_header.1.log 2>/var/log/vacuumdb.tab_nota_header.2.log
-vacuumdb -h "$IP" -p "$PORT" -U postgres -w -d "$BANCO" -v -f -z -t public.tab_nota_item 1>/var/log/vacuumdb.tab_nota_item.1.log 2>/var/log/vacuumdb.tab_nota_item.2.log
+vacuumdb -h "$IP" -p "$PORT" -U postgres -w -d "$BANCO" -v -f -z -t public.tab_controle_nfe
+vacuumdb -h "$IP" -p "$PORT" -U postgres -w -d "$BANCO" -v -f -z -t public.tab_nota_header
+vacuumdb -h "$IP" -p "$PORT" -U postgres -w -d "$BANCO" -v -f -z -t public.tab_nota_item
 
  echo -e "FIM $(date)"
 
