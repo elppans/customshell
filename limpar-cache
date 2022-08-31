@@ -1,0 +1,4 @@
+#!/bin/bash
+free -h
+sudo sync && sudo sysctl -w vm.drop_caches=3 && printf '\n%s\n' 'Ram-cache limpo'
+free -h

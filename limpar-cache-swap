@@ -1,0 +1,2 @@
+#!/bin/bash
+sudo swapoff -a && sudo swapon -a && printf '\n%s\n' 'Swap limpo'

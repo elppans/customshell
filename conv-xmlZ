@@ -1,0 +1,4 @@
+#!/bin/bash
+
+iconv --verbose -f utf-8 -t iso-8859-1 "$1" > "$1".novo && mkdir -p backup && \
+mv -v "$1" backup && mv -v "$1".novo "$1"

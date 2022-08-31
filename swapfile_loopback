@@ -1,0 +1,6 @@
+#!/bin/bash
+
+free -h
+swapdev="$(sudo losetup --find "$(readlink -f /swap_file)" --show)"
+sudo swapon "${swapdev}"
+free -h
