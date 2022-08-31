@@ -9,6 +9,8 @@ if [ $(id -u) == 0 ]; then
     exit 1
 fi
 
+sudo ntpdate a.ntp.br && sudo hwclock -w
+
 cd
 
 # variavel para comandos em $HOME
@@ -27,10 +29,11 @@ sudo pacman -S --needed --noconfirm fakeroot
 ## pamac
 
 if [ ! -e /usr/bin/pamac ]; then
-mkdir -p ~/build/pamac-aur
-git clone https://aur.archlinux.org/pamac-aur.git ~/build/pamac-aur
-cd ~/build/pamac-aur
-makepkg --install --syncdeps --rmdeps --needed --noconfirm --skipchecksums --skippgpcheck --clean
+#mkdir -p ~/build/pamac-aur
+#git clone https://aur.archlinux.org/pamac-aur.git ~/build/pamac-aur
+#cd ~/build/pamac-aur
+#makepkg --install --syncdeps --rmdeps --needed --noconfirm --skipchecksums --skippgpcheck --clean
+sudo pacman -S --needed --noconfirm pamac-cli pamac-gtk
 read -p "Aperte ENTER para continuar ou CTRL+C para sair..."
 fi
 
@@ -64,7 +67,7 @@ mkdir -p ~/.local/share/remmina
 # Terminais
 
 # Yakuake. Terminal Suspenso KDE
-sudo pacman -S --needed --noconfirm yakuake
+#sudo pacman -S --needed --noconfirm yakuake
 sudo pacman -S --needed --noconfirm xterm
 
 # Edição de imagens
@@ -73,7 +76,8 @@ sudo pacman -S --needed --noconfirm imagemagick gimp
 
 # Edição de textos
 
-sudo pacman -S --needed --noconfirm kate konsole
+sudo pacman -S --needed --noconfirm kate
+#sudo pacman -S --needed --noconfirm konsole
 
 # Browser
 
@@ -85,7 +89,7 @@ sudo pacman -S --needed --noconfirm kate konsole
 
 # complemento typora (Editor Markdown simples):
 
-sudo pacman -S --needed --noconfirm pandoc
+#sudo pacman -S --needed --noconfirm pandoc
 
 # Java
 
@@ -110,7 +114,7 @@ sudo systemctl stop xl2tpd && sudo systemctl disable xl2tpd
 
 # Pacotes AUR
 
-pamac build --no-keep --no-confirm typora
+#pamac build --no-keep --no-confirm typora
 #pamac build --no-keep --no-confirm microsoft-edge-stable-bin
 pamac build --no-keep --no-confirm fusesmb
 pamac build --no-keep --no-confirm openfortigui
