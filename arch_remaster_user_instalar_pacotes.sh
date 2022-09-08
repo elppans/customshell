@@ -68,6 +68,7 @@ mkdir -p ~/.local/share/remmina
 
 # Yakuake. Terminal Suspenso KDE
 #sudo pacman -S --needed --noconfirm yakuake
+#sudo pacman -S --needed --noconfirm konsole
 sudo pacman -S --needed --noconfirm xterm
 
 # Edição de imagens
@@ -77,31 +78,10 @@ sudo pacman -S --needed --noconfirm imagemagick gimp
 # Edição de textos
 
 sudo pacman -S --needed --noconfirm kate
-#sudo pacman -S --needed --noconfirm konsole
-
-# Browser
-
-#sudo pacman -S --needed --noconfirm chromium
-#sudo pacman -S --needed --noconfirm midori
-#sudo pacman -S --needed --noconfirm vivaldi vivaldi-ffmpeg-codecs
-
-##  OUTROS
-
-# complemento typora (Editor Markdown simples):
-
-#sudo pacman -S --needed --noconfirm pandoc
 
 # Java
 
 java --version && echo "java OK!" || sudo pacman -S --needed --noconfirm jre-openjdk
-
-# PlayOnLinux
-
-sudo pacman -S --needed --noconfirm playonlinux winetricks
-
-##	Porta serial no Wine:
-
-#sudo usermod -a -G dialout $USER
 
 # NetworkManager VPN
 
@@ -114,11 +94,34 @@ sudo systemctl stop xl2tpd && sudo systemctl disable xl2tpd
 
 # Pacotes AUR
 
-#pamac build --no-keep --no-confirm typora
-#pamac build --no-keep --no-confirm microsoft-edge-stable-bin
 pamac build --no-keep --no-confirm fusesmb
 pamac build --no-keep --no-confirm openfortigui
 
+# PlayOnLinux
+
+sudo pacman -S --needed --noconfirm wine-staging
+sudo pacman -S --needed --noconfirm winetricks
+#pamac build --no-confirm playonlinux
+
+
+##	Porta serial no Wine:
+
+#sudo usermod -a -G dialout $USER
+
+# Browser
+
+#sudo pacman -S --needed --noconfirm chromium
+#sudo pacman -S --needed --noconfirm midori
+#sudo pacman -S --needed --noconfirm vivaldi vivaldi-ffmpeg-codecs
+
+#pamac build --no-keep --no-confirm microsoft-edge-stable-bin
+
+##  OUTROS
+
+# complemento typora (Editor Markdown simples):
+
+#sudo pacman -S --needed --noconfirm pandoc
+#pamac build --no-keep --no-confirm typora
 
 ###
 
