@@ -62,32 +62,32 @@ sudo systemctl enable vpnagentd.service
 
 bash -c ~/.local/bin/NetworkManager-VPN
 
-echo -e '[Desktop Entry]
-Encoding=UTF-8
-Name=RtgAtualizaBD
-Comment=PlayOnLinux
-Type=Application
-Exec=AtualizaBD
-Icon=wine
-StartupWMClass=RtgAtualizaBD312.exe
-Categories=Development;' | tee ~/.local/share/applications/RtgAtualizaBD.desktop >> /dev/null
+#echo -e '[Desktop Entry]
+#Encoding=UTF-8
+#Name=RtgAtualizaBD
+#Comment=PlayOnLinux
+#Type=Application
+#Exec=AtualizaBD
+#Icon=wine
+#StartupWMClass=RtgAtualizaBD312.exe
+#Categories=Development;' | tee ~/.local/share/applications/RtgAtualizaBD.desktop >> /dev/null
 
-echo -e '[Desktop Entry]
-Encoding=UTF-8
-Name=VPN_RODRAF
-Comment=PlayOnLinux
-Type=Application
-Exec=VPN_RODRAF
-Icon=wine
-StartupWMClass=RODRAF.exe
-Categories=Development;' | tee ~/.local/share/applications/VPN_RODRAF.desktop >> /dev/null
+#echo -e '[Desktop Entry]
+#Encoding=UTF-8
+#Name=VPN_RODRAF
+#Comment=PlayOnLinux
+#Type=Application
+#Exec=VPN_RODRAF
+#Icon=wine
+#StartupWMClass=RODRAF.exe
+#Categories=Development;' | tee ~/.local/share/applications/VPN_RODRAF.desktop >> /dev/null
 
-echo -e '[Desktop Entry]
-Encoding=UTF-8
-Name=VPN_SOL
-Comment=PlayOnLinux
-Type=Application
-Exec=VPN_SOL
-Icon=wine
-StartupWMClass=VPN_SOL.exe
-Categories=Development;' | tee ~/.local/share/applications/VPN_SOL.desktop >> /dev/null
+#echo -e '[Desktop Entry]
+#Encoding=UTF-8
+#Name=VPN_SOL
+#Comment=PlayOnLinux
+#Type=Application
+#Exec=VPN_SOL
+#Icon=wine
+#StartupWMClass=VPN_SOL.exe
+#Categories=Development;' | tee ~/.local/share/applications/VPN_SOL.desktop >> /dev/null
