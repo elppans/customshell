@@ -8,7 +8,7 @@ if [ -e "$HOME/.config/"$BASE"/"$BASE".cfg" ] ; then
           source "$HOME/.config/"$BASE"/"$BASE".cfg"
   else
           mkdir -p "$HOME/.config/"$BASE""
-          echo -e 'DIR="/home/files/VM/virtmanager"' > "$HOME/.config/"$BASE"/"$BASE".cfg"
+          echo -e 'DIR="~/.local/share/libvirt/images"' > "$HOME/.config/"$BASE"/"$BASE".cfg"
           source "$HOME/.config/"$BASE"/"$BASE".cfg"
 fi
 
