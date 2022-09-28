@@ -1,7 +1,5 @@
 #!/bin/bash
 
-#!/bin/bash
-
 AUR='pacotes_AUR.txt'
 ls -d1 */ > "$AUR"
 for PAC in $(cat "$AUR"); do
