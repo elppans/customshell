@@ -55,6 +55,8 @@ tar -zxf arch_remaster_user_openfortigui.tgz && rm -rf arch_remaster_user_openfo
 
 wget -c https://www.dropbox.com/s/qv87242hco75c89/cisco-anyconnect_4.10.01075.tar.gz
 sudo tar -zxvf cisco-anyconnect_4.10.01075.tar.gz -C / && rm -rf cisco-anyconnect_4.10.01075.tar.gz
+echo -e '/opt/cisco/anyconnect/lib' | sudo tee /etc/ld.so.conf.d/anyconnect.conf
+ldconfig
 sudo systemctl daemon-reload
 sudo systemctl start vpnagentd.service
 sudo systemctl enable vpnagentd.service
