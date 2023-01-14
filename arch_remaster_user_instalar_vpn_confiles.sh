@@ -55,7 +55,9 @@ tar -zxf arch_remaster_user_bin.tgz && rm -rf arch_remaster_user_bin.tgz
 tar -zxf arch_remaster_user_openfortigui.tgz && rm -rf arch_remaster_user_openfortigui.tgz
 
 wget -c https://www.dropbox.com/s/qv87242hco75c89/cisco-anyconnect_4.10.01075.tar.gz
+wget -c https://www.dropbox.com/s/u3h7m72551euo29/cisco_lopes.xml
 sudo tar -zxvf cisco-anyconnect_4.10.01075.tar.gz -C / && rm -rf cisco-anyconnect_4.10.01075.tar.gz
+sudo mv -v cisco_lopes.xml /opt/cisco/anyconnect/profile
 echo -e '/opt/cisco/anyconnect/lib' | sudo tee /etc/ld.so.conf.d/anyconnect.conf
 ldconfig
 sudo systemctl daemon-reload
