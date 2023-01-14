@@ -20,6 +20,7 @@ wget -c https://www.dropbox.com/s/nvnbxvcb5tb2fau/VPN_RODRAF.tgz
 wget -c https://www.dropbox.com/s/civfd05wxgc9nw8/VPN_SOL.tgz
 tar -zxf VPN_RODRAF.tgz && rm -rf VPN_RODRAF.tgz
 tar -zxf VPN_SOL.tgz && rm -rf VPN_SOL.tgz
+sed -i 's/\/home\/manjaro/$HOME/' ~/.local/bin/VPN*
 
 wget -c https://www.dropbox.com/s/57fybnptqdehft9/AtualizaBD.tgz
 tar -zxf AtualizaBD.tgz && rm -rf AtualizaBD.tgz
