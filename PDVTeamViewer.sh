@@ -19,6 +19,12 @@ sed -i 's/ExecStart=-/#ExecStart=-/' /etc/systemd/system/getty@tty1.service.d/ov
 # cp -rf /etc/xdg/lxpanel ~/.config/
 # lxpanelctl restart
 
+## Após iniciar o sistema, configurar para ocultar a barra de tarefas
+
+# Clique com o botão direito em cima da barra de tarefas (painel)  e clique em "Painel Settings"
+# Vá até a aba "Advanced", procure "Automatic hiding" e clique para deixar marcado a opção "Minimize panel when not in use"
+# Clique em Close
+
 # Instalando e configurando Team Viewer 
 
 sudo sh -c "echo 'deb http://linux.teamviewer.com/deb stable main' >> /etc/apt/sources.list.d/teamviewer.list"
