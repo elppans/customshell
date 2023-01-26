@@ -16,7 +16,7 @@ sed -i 's/ExecStart=-/#ExecStart=-/' /etc/systemd/system/getty@tty1.service.d/ov
 sudo sh -c "echo 'deb http://linux.teamviewer.com/deb stable main' >> /etc/apt/sources.list.d/teamviewer.list"
 sudo apt-key adv --recv-keys --keyserver keyserver.ubuntu.com C5E224500C1289C0
 sudo apt-get update
-sudo apt-et install teamviewer
+sudo apt-get install teamviewer
 dpkg -l teamviewer* | grep ^ii
 echo -e '[Desktop Entry]
 Version=1.0
