@@ -1,2 +1,5 @@
 #!/bin/bash
-dpkg -l 'linux-*' | sed '/^ii/!d;/'"$(uname -r | sed "s/\(.*\)-\([^0-9]\+\)/\1/")"'/d;s/^[^ ]* [^ ]* \([^ ]*\).*/\1/;/[0-9]/!d' | xargs sudo apt-get -y purge
+
+dpkg -l 'linux-*' | sed '/^ii/!d;/'"$(uname -r | sed "s/\(.*\)-\([^0-9]\+\)/\1/")"'/d;s/^[^ ]* [^ ]* \([^ ]*\).*/\1/;/[0-9]/!d' > /tmp/purge-kernels-antigos
+sed -i '/linux-libc/d' /tmp/purge-kernels-antigos
+sudo apt-get -y purge $(cat /tmp/purge-kernels-antigos)
