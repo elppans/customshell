@@ -5,6 +5,7 @@
 # Baixar o pacote noVNC
 wget -c https://github.com/elppans/conf/raw/master/novnc_web/kanaka-novnc_git-210823.tgz
 tar -zxvf kanaka-novnc_git-210823.tgz -C /
+cp -rfv /usr/share/kanaka-noVNC/vnc_lite.html /usr/share/kanaka-noVNC/vnc_auto.html
 
 # Desativar o noVNC do PDV
 chmod -x /usr/local/bin/noVNC
