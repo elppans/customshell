@@ -19,7 +19,8 @@ ln -sf $(readlink -m vnc_lite.html) index.html
 # Desativar o noVNC do PDV
 chmod -x /usr/local/bin/noVNC
 sed -i '/[Vv][Nn][Cc]/ s/^/# /' /usr/local/bin/display.set
-# mv /opt/webadmin/thirdparty/kanaka-noVNC /opt/webadmin/thirdparty/kanaka-noVNC.OLD
+mv /opt/webadmin/thirdparty/kanaka-noVNC /opt/webadmin/thirdparty/kanaka-noVNC.OLD
+chmod 000 /opt/webadmin/thirdparty/kanaka-noVNC.OLD
 
 # Instalar x11vnc e adicionar a senha
 sudo apt-get update
