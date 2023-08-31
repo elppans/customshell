@@ -11,8 +11,8 @@ find "$DIR"/ -name *.ZZ5 -exec rm -rfv '{}' \;
 find "$DIR"/ -name *.dmp -exec rm -rfv '{}' \;
 find "$DIR"/ -name *.tmp -exec rm -rfv '{}' \;
 find "$DIR"/ -name *.ZMV -exec rm -rfv '{}' \;
-find "$DIR"/ -name *~ -exec rm -rfv '{}' \;
 find "$DIR"/ -name *.FISCTX -exec rm -rfv '{}' \;
 find "$DIR"/ -name *.GZMD -exec rm -rfv '{}' \;
 find "$DIR"/ -name *.NV_ -exec rm -rfv '{}' \;
-
+#find "$DIR"/ -name *~ -exec rm -rfv '{}' \;
+rm -rfv "$DIR"/*~
