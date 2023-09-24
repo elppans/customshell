@@ -6,6 +6,6 @@ export WINEPREFIX="$HOME/.wine/wbvsshclient" && mkdir -p $WINEPREFIX
 export WINEDEBUG="-all"
 cd "$DGET"
 wget -c https://dl.bitvise.com/BvSshClient-Inst.exe
-wine "BvSshClient-Inst.exe -force -acceptEULA"  "$@"
+wine "BvSshClient-Inst.exe" -force -acceptEULA  "$@"
 cd
 rm -rf "$DGET"
