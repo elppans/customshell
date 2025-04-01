@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # Criar pendrive bootável com Unetbootin
-# sudo apt purge usb-creator-gtk usb-creator-common
-# sudo apt purge gnome-multi-writer
+sudo apt -y purge usb-creator-gtk usb-creator-common
+# sudo -y apt purge gnome-multi-writer
 
 # UNetbootin must be run as root. Run it from the command line using:
 # https://github.com/unetbootin/unetbootin
